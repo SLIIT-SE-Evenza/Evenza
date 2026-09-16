@@ -5,11 +5,20 @@ import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 import ToastContainer from "@/components/shared/ToastContainer";
 
-// Pages
+// Auth & Public
 import HomePage from "@/pages/HomePage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+
+// Authenticated Role Portals
+import InventoryDashboard from "./pages/inventory/InventoryDashboard";
+import StockCatalog from "./pages/inventory/StockCatalog";
+import CustomerDashboard from "./pages/customer/CustomerDashboard";
+import ManagerDashboard from "./pages/manager/ManagerDashboard";
+import VendorDashboard from "./pages/vendor/VendorDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import GuestDashboard from "./pages/guest/GuestDashboard";
 
 /**
  * App — Root component
@@ -26,56 +35,28 @@ function App() {
 						{/* Page content */}
 						<div className="flex-1">
 							<Routes>
-								{/* Public routes */}
+								{/* Public Marketing & Auth */}
 								<Route path="/" element={<HomePage />} />
 								<Route path="/login" element={<LoginPage />} />
 								<Route path="/register" element={<RegisterPage />} />
 
-								{/* Fallback Portal Placeholders to prevent crashes on post-login redirect */}
-								<Route
-									path="/portal/customer"
-									element={
-										<div className="p-8 text-center">
-											<h1 className="text-2xl font-bold">Customer Portal</h1>
-										</div>
-									}
-								/>
+								{/* Role-Based Authenticated Portals */}
 								<Route
 									path="/dashboard/inventory"
-									element={
-										<div className="p-8 text-center">
-											<h1 className="text-2xl font-bold">
-												Inventory Staff Portal
-											</h1>
-										</div>
-									}
+									element={<InventoryDashboard />}
 								/>
 								<Route
-									path="/portal/manager"
-									element={
-										<div className="p-8 text-center">
-											<h1 className="text-2xl font-bold">
-												Event Manager Portal
-											</h1>
-										</div>
-									}
+									path="/dashboard/inventory/catalog"
+									element={<StockCatalog />}
 								/>
 								<Route
-									path="/portal/vendor"
-									element={
-										<div className="p-8 text-center">
-											<h1 className="text-2xl font-bold">Vendor Portal</h1>
-										</div>
-									}
+									path="/portal/customer"
+									element={<CustomerDashboard />}
 								/>
-								<Route
-									path="/portal/guest"
-									element={
-										<div className="p-8 text-center">
-											<h1 className="text-2xl font-bold">Guest Portal</h1>
-										</div>
-									}
-								/>
+								<Route path="/portal/manager" element={<ManagerDashboard />} />
+								<Route path="/portal/vendor" element={<VendorDashboard />} />
+								<Route path="/portal/admin" element={<AdminDashboard />} />
+								<Route path="/portal/guest" element={<GuestDashboard />} />
 
 								{/* 404 fallback */}
 								<Route path="*" element={<NotFoundPage />} />
