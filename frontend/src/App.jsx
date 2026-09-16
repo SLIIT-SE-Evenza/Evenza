@@ -19,9 +19,6 @@ function App() {
 				<NotificationProvider>
 					{/* Global layout shell */}
 					<div className="min-h-screen flex flex-col bg-background text-foreground">
-						{/* Sticky navbar */}
-						<Navbar />
-
 						{/* Page content */}
 						<div className="flex-1">
 							<Routes>
