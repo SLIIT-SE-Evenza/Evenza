@@ -350,47 +350,32 @@ export default function StockCatalog() {
 													{item.conditionStatus}
 												</span>
 											</td>
-											<td className="py-3.5 px-4 text-center relative">
-												<button
-													onClick={() =>
-														setOpenDropdown(openDropdown === id ? null : id)
-													}
-													className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-md"
-												>
-													<MoreHorizontal size={16} />
-												</button>
+											<td className="py-3.5 px-4 text-center">
+												<div className="flex items-center justify-center gap-1.5">
+													{/* Adjust Stock Button */}
+													<button
+														onClick={() => {
+															setSelectedItem(item);
+															setIsAdjustModalOpen(true);
+														}}
+														title="Adjust Stock Quantity"
+														className="px-2.5 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-700 font-semibold rounded-lg text-xs transition-colors inline-flex items-center gap-1"
+													>
+														<Plus size={13} />
+														<span>Adjust</span>
+													</button>
 
-												{/* Dropdown Menu */}
-												{openDropdown === id && (
-													<>
-														<div
-															className="fixed inset-0 z-10"
-															onClick={() => setOpenDropdown(null)}
-														></div>
-														<div className="absolute right-6 top-8 w-40 bg-white rounded-lg shadow-lg border border-slate-200 z-20 py-1 text-left">
-															<button
-																onClick={() => {
-																	setSelectedItem(item);
-																	setIsAdjustModalOpen(true);
-																	setOpenDropdown(null);
-																}}
-																className="w-full px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 flex items-center gap-2"
-															>
-																<Plus size={14} /> Adjust Quantity
-															</button>
-															<div className="h-px bg-slate-100 my-1"></div>
-															<button
-																onClick={() => {
-																	handleDeleteItem(id);
-																	setOpenDropdown(null);
-																}}
-																className="w-full px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 flex items-center gap-2"
-															>
-																<Trash size={14} /> Delete Item
-															</button>
-														</div>
-													</>
-												)}
+													{/* Delete Button */}
+													<button
+														onClick={() =>
+															handleDeleteItem(item.id || item.sku)
+														}
+														title="Delete Asset"
+														className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+													>
+														<Trash size={15} />
+													</button>
+												</div>
 											</td>
 										</tr>
 									);
