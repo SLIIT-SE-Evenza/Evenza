@@ -31,7 +31,7 @@ public class Milestone {
     private MilestoneStatus status = MilestoneStatus.NOT_STARTED;
 
     @OneToMany(mappedBy = "milestone", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<Task> task= new ArrayList<>();
+    private List<Task> tasks = new ArrayList<>();
 
     protected Milestone(){
     }

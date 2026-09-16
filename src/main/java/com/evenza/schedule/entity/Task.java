@@ -1,6 +1,6 @@
 package com.evenza.schedule.entity;
 
-import com.evenza.common.user.User;
+import com.evenza.user.entity.User;
 import com.evenza.event.entity.Event;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -95,7 +95,7 @@ public class Task {
 
     }
 
-    ublic void cancel() {
+    public void cancel() {
         this.status = TaskStatus.CANCELLED;
     }
 

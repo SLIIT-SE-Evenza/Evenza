@@ -5,17 +5,41 @@ import { cn } from "@/lib/utils";
 
 export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [role, setRole] = useState("Customer");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate registration
-    setTimeout(() => {
+    setErrorMessage("");
+
+    const data = {
+      firstName: e.target.firstName.value,
+      lastName: e.target.lastName.value,
+      email: e.target.email.value,
+      password: e.target.password.value,
+      role: role
+    };
+
+    try {
+      const response = await fetch("http://localhost:8080/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        navigate("/login");
+      } else {
+        const errorText = await response.text();
+        setErrorMessage(errorText || "Registration failed");
+      }
+    } catch (err) {
+      setErrorMessage("Could not connect to the server.");
+    } finally {
       setIsLoading(false);
-      navigate("/login");
-    }, 1500);
+    }
   };
 
   return (
@@ -92,6 +116,12 @@ export default function RegisterPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               
+              {errorMessage && (
+                <div className="p-3 rounded-xl bg-brand-orange/10 border border-brand-orange text-brand-orange text-sm font-semibold">
+                  {errorMessage}
+                </div>
+              )}
+
               <div className="grid grid-cols-2 gap-4">
                  <div className="space-y-1.5">
                    <label className="text-xs font-bold text-brand-dark" htmlFor="firstName">First Name</label>
