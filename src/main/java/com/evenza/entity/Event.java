@@ -1,6 +1,5 @@
-package com.evenza.schedule.entity;
+package com.evenza.entity;
 
-import com.evenza.entity.Event;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -9,13 +8,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "milestones")
+@Table(name = "events")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Milestone {
+public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,22 +26,20 @@ public class Milestone {
 
     private String description;
 
-    private LocalDate targetDate;
+    private String eventType; // Wedding, Conference, Party, etc.
 
-    @Enumerated(EnumType.STRING)
-    private MilestoneStatus status; // Uses your MilestoneStatus.java enum
+    private LocalDate eventDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id")
-    private Event event;
+    private String venue;
+
+    private Integer expectedGuests;
+
+    private String status; // "Draft", "Pending Approval", "Approved", "In Progress", "Completed", "Cancelled"
 
     private LocalDateTime createdAt;
 
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        if (this.status == null) {
-            this.status = MilestoneStatus.PENDING;
-        }
     }
 }

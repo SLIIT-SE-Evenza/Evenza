@@ -46,40 +46,31 @@ export default function LoginPage() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError("");
-
-		// Input Validation
-		if (!formData.email.trim() || !formData.password.trim()) {
-			setError("Please provide both email and password.");
-			return;
-		}
-
 		setLoading(true);
 
 		try {
-			// Simulate API verification call
-			await new Promise((resolve) => setTimeout(resolve, 800));
+			const response = await fetch("/api/auth/login", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					email: formData.email,
+					password: formData.password,
+				}),
+			});
 
-			// Mock user object (replace with backend API response)
-			const mockUserData = {
-				id: "usr_1029",
-				name: formData.email.split("@")[0],
-				email: formData.email,
-				role: formData.email.includes("inventory")
-					? "Inventory Staff"
-					: formData.email.includes("manager")
-						? "Event Manager"
-						: "Customer",
-			};
+			if (!response.ok) {
+				const msg = await response.text();
+				throw new Error(msg || "Invalid credentials");
+			}
 
-			const mockToken = "jwt_token_sample_" + Date.now();
-
-			// Update Auth Context & Local Storage
-			login(mockUserData, mockToken);
-
-			// Route to role-specific portal
-			navigate(getRoleDashboardRoute(mockUserData.role));
+			const data = await response.json();
+			login(
+				{ id: data.id, name: data.name, email: data.email, role: data.role },
+				data.token,
+			);
+			navigate(getRoleDashboardRoute(data.role));
 		} catch (err) {
-			setError("Invalid email or password. Please try again.");
+			setError(err.message || "Failed to sign in.");
 		} finally {
 			setLoading(false);
 		}

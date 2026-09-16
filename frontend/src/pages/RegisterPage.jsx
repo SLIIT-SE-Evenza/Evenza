@@ -57,47 +57,31 @@ export default function RegisterPage() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError("");
-
-		// Validations
-		if (!formData.fullName.trim() || !formData.email.trim()) {
-			setError("Please fill in all required fields.");
-			return;
-		}
-		if (formData.password.length < 8) {
-			setError("Password must be at least 8 characters long.");
-			return;
-		}
-		if (formData.password !== formData.confirmPassword) {
-			setError("Passwords do not match.");
-			return;
-		}
-		if (!formData.agreeTerms) {
-			setError("Please accept the terms and privacy policy to continue.");
-			return;
-		}
-
 		setLoading(true);
 
 		try {
-			// Simulate API registration call
-			await new Promise((resolve) => setTimeout(resolve, 900));
+			const response = await fetch("/api/auth/register", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					email: formData.email,
+					password: formData.password,
+				}),
+			});
 
-			const registeredUser = {
-				id: "usr_" + Math.floor(Math.random() * 9000 + 1000),
-				name: formData.fullName,
-				email: formData.email,
-				role: formData.role,
-			};
+			if (!response.ok) {
+				const msg = await response.text();
+				throw new Error(msg || "Invalid credentials");
+			}
 
-			const generatedToken = "jwt_reg_token_" + Date.now();
-
-			// Log in immediately through context
-			login(registeredUser, generatedToken);
-
-			// Route straight to the user's role workspace
-			navigate(getRoleDashboardRoute(registeredUser.role));
+			const data = await response.json();
+			login(
+				{ id: data.id, name: data.name, email: data.email, role: data.role },
+				data.token,
+			);
+			navigate(getRoleDashboardRoute(data.role));
 		} catch (err) {
-			setError("Registration failed. Please verify your details.");
+			setError(err.message || "Failed to sign in.");
 		} finally {
 			setLoading(false);
 		}
