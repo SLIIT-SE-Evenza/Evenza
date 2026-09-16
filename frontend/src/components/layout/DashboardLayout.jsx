@@ -224,7 +224,7 @@ export default function DashboardLayout({
 						</div>
 
 						{/* Notification Bell */}
-						<button className="relative p-2 text-slate-500 hover:text-blue-600 hover:bg-slate-50 rounded-lg">
+						<button className="relative p-2 text-slate-500 hover:text-slate-600 hover:bg-slate-50 rounded-lg">
 							<Bell size={18} />
 							<span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-600 rounded-full"></span>
 						</button>

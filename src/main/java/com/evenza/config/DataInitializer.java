@@ -26,66 +26,30 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        // Seed default accounts
+        // Seed default accounts using standard constructor
         if (userRepo.count() == 0) {
-            userRepo.save(User.builder()
-                    .fullName("Keshavan M.")
-                    .email("inventory@evenza.lk")
-                    .password(encoder.encode("Password123!"))
-                    .role("Inventory Staff")
-                    .build());
+            User inventoryUser = new User();
+            inventoryUser.setFullName("Keshavan M.");
+            inventoryUser.setEmail("inventory@evenza.lk");
+            inventoryUser.setPassword(encoder.encode("Password123!"));
+            inventoryUser.setRole("Inventory Staff");
+            userRepo.save(inventoryUser);
 
-            userRepo.save(User.builder()
-                    .fullName("Amara Silva")
-                    .email("customer@evenza.lk")
-                    .password(encoder.encode("Password123!"))
-                    .role("Customer")
-                    .build());
+            User customerUser = new User();
+            customerUser.setFullName("Amara Silva");
+            customerUser.setEmail("customer@evenza.lk");
+            customerUser.setPassword(encoder.encode("Password123!"));
+            customerUser.setRole("Customer");
+            userRepo.save(customerUser);
         }
 
         // Seed initial warehouse inventory
         if (inventoryRepo.count() == 0) {
             inventoryRepo.saveAll(List.of(
-                    InventoryItem.builder()
-                            .sku("INV-1002")
-                            .name("Banquet Velvet Chairs")
-                            .category("Seating")
-                            .totalQuantity(50)
-                            .allocatedQuantity(42)
-                            .minSafetyLimit(25)
-                            .conditionStatus("Good")
-                            .unitCost(BigDecimal.valueOf(1500))
-                            .build(),
-                    InventoryItem.builder()
-                            .sku("INV-1044")
-                            .name("Wireless Shure Mic Kit")
-                            .category("AV Equipment")
-                            .totalQuantity(10)
-                            .allocatedQuantity(8)
-                            .minSafetyLimit(5)
-                            .conditionStatus("New")
-                            .unitCost(BigDecimal.valueOf(12000))
-                            .build(),
-                    InventoryItem.builder()
-                            .sku("INV-1090")
-                            .name("LED Par Can Lights")
-                            .category("Lighting")
-                            .totalQuantity(20)
-                            .allocatedQuantity(16)
-                            .minSafetyLimit(12)
-                            .conditionStatus("Needs Maintenance")
-                            .unitCost(BigDecimal.valueOf(4500))
-                            .build(),
-                    InventoryItem.builder()
-                            .sku("INV-1105")
-                            .name("Round Wooden Dining Tables")
-                            .category("Tables")
-                            .totalQuantity(30)
-                            .allocatedQuantity(10)
-                            .minSafetyLimit(10)
-                            .conditionStatus("Good")
-                            .unitCost(BigDecimal.valueOf(8000))
-                            .build()
+                new InventoryItem(null, "INV-1002", "Banquet Velvet Chairs", "Seating", 50, 42, 25, "Good", BigDecimal.valueOf(1500)),
+                new InventoryItem(null, "INV-1044", "Wireless Shure Mic Kit", "AV Equipment", 10, 8, 5, "New", BigDecimal.valueOf(12000)),
+                new InventoryItem(null, "INV-1090", "LED Par Can Lights", "Lighting", 20, 16, 12, "Needs Maintenance", BigDecimal.valueOf(4500)),
+                new InventoryItem(null, "INV-1105", "Round Wooden Dining Tables", "Tables", 30, 10, 10, "Good", BigDecimal.valueOf(8000))
             ));
         }
     }

@@ -57,31 +57,68 @@ export default function RegisterPage() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError("");
+
+		// 1. Client-Side Input Validations
+		if (!formData.fullName.trim() || !formData.email.trim()) {
+			setError("Please fill in all required fields.");
+			return;
+		}
+		if (formData.password.length < 8) {
+			setError("Password must be at least 8 characters long.");
+			return;
+		}
+		if (formData.password !== formData.confirmPassword) {
+			setError("Passwords do not match.");
+			return;
+		}
+		if (!formData.agreeTerms) {
+			setError("Please accept the terms and privacy policy to continue.");
+			return;
+		}
+
 		setLoading(true);
 
 		try {
+			// 2. Real Backend API Call to Spring Boot
 			const response = await fetch("/api/auth/register", {
 				method: "POST",
-				headers: { "Content-Type": "application/json" },
+				headers: {
+					"Content-Type": "application/json",
+				},
 				body: JSON.stringify({
-					email: formData.email,
-					password: formData.password,
+					fullName: formData.fullName, // Matches backend DTO: fullName
+					email: formData.email, // Matches backend DTO: email
+					password: formData.password, // Matches backend DTO: password
+					role: formData.role, // Matches backend DTO: role
 				}),
 			});
 
 			if (!response.ok) {
-				const msg = await response.text();
-				throw new Error(msg || "Invalid credentials");
+				// Read the error message returned from Spring Boot
+				const errorMsg = await response.text();
+				throw new Error(
+					errorMsg || "Registration failed. Please check your details.",
+				);
 			}
 
+			// 3. Parse AuthResponse (contains: id, name, email, role, token)
 			const data = await response.json();
+
+			// 4. Update AuthContext & Local Storage
 			login(
-				{ id: data.id, name: data.name, email: data.email, role: data.role },
+				{
+					id: data.id,
+					name: data.name,
+					email: data.email,
+					role: data.role,
+				},
 				data.token,
 			);
+
+			// 5. Navigate to the role's designated dashboard
 			navigate(getRoleDashboardRoute(data.role));
 		} catch (err) {
-			setError(err.message || "Failed to sign in.");
+			setError(err.message || "Registration failed. Please try again.");
 		} finally {
 			setLoading(false);
 		}

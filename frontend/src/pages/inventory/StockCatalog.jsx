@@ -233,7 +233,7 @@ export default function StockCatalog() {
 						</h1>
 						<p className="text-sm text-slate-500 mt-1">
 							Maintain warehouse equipment, track safety thresholds, and monitor
-							asset availability[cite: 1].
+							asset availability.
 						</p>
 					</div>
 					<button

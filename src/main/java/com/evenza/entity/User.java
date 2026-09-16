@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "evenza_users")
 public class User {
 
     @Id
@@ -23,7 +23,7 @@ public class User {
     private String email;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String password;
 
     @NotBlank
@@ -47,7 +47,6 @@ public class User {
         this.createdAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getFullName() { return fullName; }
@@ -59,26 +58,4 @@ public class User {
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
     public LocalDateTime getCreatedAt() { return createdAt; }
-
-    // Static Builder to support builder pattern
-    public static UserBuilder builder() {
-        return new UserBuilder();
-    }
-
-    public static class UserBuilder {
-        private Long id;
-        private String fullName;
-        private String email;
-        private String password;
-        private String role;
-
-        public UserBuilder id(Long id) { this.id = id; return this; }
-        public UserBuilder fullName(String fullName) { this.fullName = fullName; return this; }
-        public UserBuilder email(String email) { this.email = email; return this; }
-        public UserBuilder password(String password) { this.password = password; return this; }
-        public UserBuilder role(String role) { this.role = role; return this; }
-        public User build() {
-            return new User(id, fullName, email, password, role);
-        }
-    }
 }

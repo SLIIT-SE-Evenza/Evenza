@@ -88,7 +88,7 @@ export default function InventoryDashboard() {
 					</h1>
 					<p className="text-sm text-slate-500 mt-1">
 						Real-time warehouse tracking, safe stock thresholds, and live event
-						equipment dispatch[cite: 1, 2].
+						equipment dispatch.
 					</p>
 				</div>
 
@@ -129,7 +129,7 @@ export default function InventoryDashboard() {
 									Critical Low-Stock Watchlist
 								</h3>
 								<p className="text-xs text-slate-400">
-									Items below configured minimum reserve limit[cite: 1, 2].
+									Items below configured minimum reserve limit.
 								</p>
 							</div>
 							<a
@@ -188,8 +188,7 @@ export default function InventoryDashboard() {
 								Allocate Gear to Event
 							</h3>
 							<p className="text-xs text-slate-400 mb-4">
-								Assign warehouse units directly to approved event
-								reservations[cite: 1, 2].
+								Assign warehouse units directly to approved event reservations.
 							</p>
 
 							{allocationSuccess && (
