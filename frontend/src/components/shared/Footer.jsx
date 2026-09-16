@@ -32,7 +32,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer id="evenza-footer" className="bg-slate-900 text-slate-300">
+    <footer id="evenza-footer" className="bg-brand-dark text-brand-cream/80">
       {/* Top CTA Band */}
       <div className="evenza-gradient">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
@@ -48,7 +48,7 @@ export default function Footer() {
             <Link
               to="/register"
               id="footer-cta-register"
-              className="px-6 py-2.5 bg-white text-blue-600 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-all shadow-sm hover:shadow-md"
+              className="px-6 py-2.5 bg-white text-brand-teal rounded-lg font-semibold text-sm hover:bg-brand-cream/20 transition-all shadow-sm hover:shadow-md"
             >
               Get Started Free
             </Link>
@@ -79,7 +79,7 @@ export default function Footer() {
             <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
               A centralized web-based event planning platform built for modern event organizers, venues, and vendors. Streamline every step of your event lifecycle.
             </p>
-            <p className="text-slate-500 text-xs mt-3">
+            <p className="text-brand-cream/200 text-xs mt-3">
               SLIIT — SE2030 Software Engineering Project · 2026
             </p>
             {/* Social */}
@@ -92,7 +92,7 @@ export default function Footer() {
                   aria-label={label}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-blue-600 flex items-center justify-center text-slate-400 hover:text-white transition-all"
+                  className="w-8 h-8 rounded-lg bg-brand-teal hover:bg-brand-teal flex items-center justify-center text-slate-400 hover:text-white transition-all"
                 >
                   <Icon className="w-3.5 h-3.5" />
                 </a>
@@ -110,7 +110,7 @@ export default function Footer() {
                     <Link
                       to={link.to}
                       id={`footer-link-${link.label.toLowerCase().replace(/\s/g, "-")}`}
-                      className="text-slate-400 text-sm hover:text-blue-400 transition-colors"
+                      className="text-slate-400 text-sm hover:text-brand-cream/200 transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -122,13 +122,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-slate-500 text-xs">
+        <div className="mt-12 pt-6 border-t border-brand-teal flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-brand-cream/200 text-xs">
             © 2026 Evenza. All rights reserved. Built with{" "}
             <Heart className="w-3 h-3 inline text-red-400" aria-hidden="true" />{" "}
             by Group 2026-Y2-S1-MLB-B10G1-02
           </p>
-          <p className="text-slate-600 text-xs">
+          <p className="text-brand-teal/80 text-xs">
             Faculty of Computing · SLIIT
           </p>
         </div>

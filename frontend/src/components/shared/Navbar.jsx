@@ -50,7 +50,7 @@ export default function Navbar() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-200/80"
+          ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-brand-cream/60/80"
           : "bg-transparent"
       )}
     >
@@ -69,7 +69,7 @@ export default function Navbar() {
             <span
               className={cn(
                 "text-xl font-bold tracking-tight transition-colors",
-                scrolled ? "text-slate-900" : "text-slate-900"
+                scrolled ? "text-brand-dark" : "text-brand-dark"
               )}
               style={{ fontFamily: "'DM Sans Variable', sans-serif" }}
             >
@@ -88,8 +88,8 @@ export default function Navbar() {
                 className={cn(
                   "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200",
                   scrolled
-                    ? "text-slate-600 hover:text-blue-600 hover:bg-blue-50"
-                    : "text-slate-700 hover:text-blue-600 hover:bg-white/60"
+                    ? "text-brand-teal/80 hover:text-brand-teal hover:bg-brand-cream/20"
+                    : "text-brand-teal hover:text-brand-teal hover:bg-white/60"
                 )}
               >
                 {link.label}
@@ -105,7 +105,7 @@ export default function Navbar() {
                 <button
                   id="notification-bell-btn"
                   aria-label="Notifications"
-                  className="relative p-2 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all"
+                  className="relative p-2 rounded-lg text-brand-teal/80 hover:text-brand-teal hover:bg-brand-cream/20 transition-all"
                 >
                   <Bell className="w-5 h-5" />
                   {unreadCount > 0 && (
@@ -120,21 +120,21 @@ export default function Navbar() {
                   <button
                     id="profile-dropdown-btn"
                     onClick={() => setProfileOpen((p) => !p)}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-all"
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-brand-cream/40 transition-all"
                   >
                     <div className="w-7 h-7 rounded-full evenza-gradient flex items-center justify-center text-white text-xs font-bold">
                       {user?.name?.[0]?.toUpperCase() ?? "U"}
                     </div>
-                    <span className="text-sm font-medium text-slate-700">{user?.name ?? "User"}</span>
+                    <span className="text-sm font-medium text-brand-teal">{user?.name ?? "User"}</span>
                     <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform", profileOpen && "rotate-180")} />
                   </button>
                   {profileOpen && (
-                    <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-slate-200 py-1.5 z-50">
+                    <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-brand-cream/60 py-1.5 z-50">
                       <Link
                         to="/dashboard"
                         id="profile-dashboard-link"
                         onClick={() => setProfileOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-brand-teal hover:bg-brand-cream/20 hover:text-brand-teal transition-colors"
                       >
                         <LayoutDashboard className="w-4 h-4" /> Dashboard
                       </Link>
@@ -142,11 +142,11 @@ export default function Navbar() {
                         to="/profile"
                         id="profile-settings-link"
                         onClick={() => setProfileOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-brand-teal hover:bg-brand-cream/20 hover:text-brand-teal transition-colors"
                       >
                         <User className="w-4 h-4" /> Profile Settings
                       </Link>
-                      <div className="my-1 border-t border-slate-100" />
+                      <div className="my-1 border-t border-brand-cream/40" />
                       <button
                         id="logout-btn"
                         onClick={handleLogout}
@@ -163,7 +163,7 @@ export default function Navbar() {
                 <Link
                   to="/login"
                   id="navbar-login-btn"
-                  className="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-all"
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-brand-teal hover:text-brand-teal hover:bg-brand-cream/20 transition-all"
                 >
                   Sign In
                 </Link>
@@ -182,7 +182,7 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <button
             id="mobile-menu-btn"
-            className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all"
+            className="md:hidden p-2 rounded-lg text-brand-teal/80 hover:bg-brand-cream/40 transition-all"
             aria-label="Toggle mobile menu"
             onClick={() => setMobileOpen((o) => !o)}
           >
@@ -195,7 +195,7 @@ export default function Navbar() {
       {mobileOpen && (
         <div
           id="mobile-menu"
-          className="md:hidden bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 pb-4"
+          className="md:hidden bg-white/95 backdrop-blur-md border-t border-brand-cream/60 px-4 pb-4"
         >
           <nav className="flex flex-col gap-1 pt-3">
             {navLinks.map((link) => (
@@ -204,13 +204,13 @@ export default function Navbar() {
                 href={link.to}
                 id={`mobile-nav-${link.label.toLowerCase()}`}
                 onClick={() => setMobileOpen(false)}
-                className="px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-all"
+                className="px-4 py-2.5 rounded-lg text-sm font-medium text-brand-teal hover:text-brand-teal hover:bg-brand-cream/20 transition-all"
               >
                 {link.label}
               </a>
             ))}
           </nav>
-          <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-slate-100">
+          <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-brand-cream/40">
             {isAuthenticated ? (
               <button
                 id="mobile-logout-btn"
@@ -225,7 +225,7 @@ export default function Navbar() {
                   to="/login"
                   id="mobile-login-btn"
                   onClick={() => setMobileOpen(false)}
-                  className="px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 bg-slate-100 text-center"
+                  className="px-4 py-2.5 rounded-lg text-sm font-medium text-brand-teal bg-brand-cream/40 text-center"
                 >
                   Sign In
                 </Link>

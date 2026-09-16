@@ -3,10 +3,10 @@ import { cn } from "@/lib/utils";
 import { useNotification } from "@/context/NotificationContext";
 
 const icons = {
-  success: { icon: CheckCircle2, cls: "text-emerald-500" },
+  success: { icon: CheckCircle2, cls: "text-brand-cream/300" },
   error: { icon: XCircle, cls: "text-red-500" },
-  warning: { icon: AlertTriangle, cls: "text-amber-500" },
-  info: { icon: Info, cls: "text-blue-500" },
+  warning: { icon: AlertTriangle, cls: "text-brand-teal/90" },
+  info: { icon: Info, cls: "text-brand-teal/80" },
 };
 
 export default function ToastContainer() {
@@ -27,20 +27,20 @@ export default function ToastContainer() {
           <div
             key={toast.id}
             role="alert"
-            className="flex items-start gap-3 bg-white border border-slate-200 rounded-xl px-4 py-3.5 shadow-lg animate-fade-in-up"
+            className="flex items-start gap-3 bg-white border border-brand-cream/60 rounded-xl px-4 py-3.5 shadow-lg animate-fade-in-up"
           >
             <Icon className={cn("w-4 h-4 mt-0.5 shrink-0", cls)} aria-hidden="true" />
             <div className="flex-1 min-w-0">
               {toast.title && (
-                <p className="text-sm font-semibold text-slate-800 leading-tight">{toast.title}</p>
+                <p className="text-sm font-semibold text-brand-teal leading-tight">{toast.title}</p>
               )}
               {toast.message && (
-                <p className="text-xs text-slate-600 mt-0.5">{toast.message}</p>
+                <p className="text-xs text-brand-teal/80 mt-0.5">{toast.message}</p>
               )}
             </div>
             <button
               onClick={() => removeToast(toast.id)}
-              className="shrink-0 text-slate-400 hover:text-slate-700 transition-colors"
+              className="shrink-0 text-slate-400 hover:text-brand-teal transition-colors"
               aria-label="Dismiss notification"
             >
               <X className="w-3.5 h-3.5" />

@@ -6,6 +6,8 @@ import Footer from "@/components/shared/Footer";
 import ToastContainer from "@/components/shared/ToastContainer";
 import HomePage from "@/pages/HomePage";
 import NotFoundPage from "@/pages/NotFoundPage";
+import LoginPage from "@/pages/LoginPage";
+import RegisterPage from "@/pages/RegisterPage";
 
 /**
  * App — Root component
@@ -27,6 +29,8 @@ function App() {
               <Routes>
                 {/* Public routes */}
                 <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
 
                 {/* 404 fallback */}
                 <Route path="*" element={<NotFoundPage />} />
