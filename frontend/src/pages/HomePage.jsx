@@ -1,22 +1,22 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
 	Search,
 	Calendar,
 	MapPin,
-	DollarSign,
-	Star,
-	ArrowRight,
-	ShieldCheck,
-	Zap,
-	Users,
-	Layers,
 	ChevronRight,
+	ArrowRight,
+	Zap,
+	Layers,
+	Users,
+	ShieldCheck,
 	Menu,
 	X,
 } from "lucide-react";
 
 export default function HomePage() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useState({
 		category: "All",
 		location: "",
@@ -84,19 +84,19 @@ export default function HomePage() {
 			{/* 1. TOP NAVIGATION BAR */}
 			<header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 relative flex items-center justify-between">
-					{/* Left: Brand Logo */}
+					{/* Brand Logo */}
 					<div className="flex items-center">
-						<a href="/" className="flex items-center gap-2">
+						<Link to="/" className="flex items-center gap-2">
 							<span className="text-2xl font-black tracking-tight text-blue-600">
 								Evenza
 							</span>
 							<span className="text-xs font-semibold px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full border border-blue-200">
 								Platform
 							</span>
-						</a>
+						</Link>
 					</div>
 
-					{/* Center: Centered Navigation Links */}
+					{/* Centered Navigation Links */}
 					<nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 absolute left-1/2 -translate-x-1/2">
 						<a href="#browse" className="hover:text-blue-600 transition-colors">
 							Browse Venues & Vendors
@@ -121,20 +121,20 @@ export default function HomePage() {
 						</a>
 					</nav>
 
-					{/* Right: Actions / Auth Buttons */}
+					{/* Desktop Auth Buttons (Redirects) */}
 					<div className="hidden md:flex items-center gap-3">
-						<a
-							href="/login"
+						<Link
+							to="/login"
 							className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors"
 						>
 							Sign In
-						</a>
-						<a
-							href="/register"
+						</Link>
+						<Link
+							to="/register"
 							className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm transition-all"
 						>
 							Get Started
-						</a>
+						</Link>
 					</div>
 
 					{/* Mobile Menu Button */}
@@ -149,7 +149,7 @@ export default function HomePage() {
 					</div>
 				</div>
 
-				{/* Mobile Dropdown */}
+				{/* Mobile Dropdown (Redirects) */}
 				{mobileMenuOpen && (
 					<div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
 						<a
@@ -171,18 +171,20 @@ export default function HomePage() {
 							Features
 						</a>
 						<div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
-							<a
-								href="/login"
+							<Link
+								to="/login"
+								onClick={() => setMobileMenuOpen(false)}
 								className="w-full text-center py-2 text-sm font-medium text-slate-700 border border-slate-300 rounded-lg"
 							>
 								Sign In
-							</a>
-							<a
-								href="/register"
+							</Link>
+							<Link
+								to="/register"
+								onClick={() => setMobileMenuOpen(false)}
 								className="w-full text-center py-2 text-sm font-medium text-white bg-blue-600 rounded-lg"
 							>
 								Get Started
-							</a>
+							</Link>
 						</div>
 					</div>
 				)}
