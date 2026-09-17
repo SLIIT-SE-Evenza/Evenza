@@ -46,31 +46,52 @@ export default function LoginPage() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError("");
+
+		if (!formData.email.trim() || !formData.password.trim()) {
+			setError("Please provide both email and password.");
+			return;
+		}
+
 		setLoading(true);
 
 		try {
+			// 1. Dispatch real HTTP POST to Spring Boot
 			const response = await fetch("/api/auth/login", {
 				method: "POST",
-				headers: { "Content-Type": "application/json" },
+				headers: {
+					"Content-Type": "application/json",
+				},
 				body: JSON.stringify({
-					email: formData.email,
+					email: formData.email.trim(),
 					password: formData.password,
 				}),
 			});
 
 			if (!response.ok) {
-				const msg = await response.text();
-				throw new Error(msg || "Invalid credentials");
+				const errorMsg = await response.text();
+				throw new Error(errorMsg || "Invalid email or password.");
 			}
 
+			// 2. Parse response (token, id, name, email, role)
 			const data = await response.json();
+
+			// 3. Save session in AuthContext & LocalStorage
 			login(
-				{ id: data.id, name: data.name, email: data.email, role: data.role },
+				{
+					id: data.id,
+					name: data.name,
+					email: data.email,
+					role: data.role,
+				},
 				data.token,
 			);
+
+			// 4. Redirect to the user's role-based portal
 			navigate(getRoleDashboardRoute(data.role));
 		} catch (err) {
-			setError(err.message || "Failed to sign in.");
+			setError(
+				err.message || "Failed to sign in. Please verify your credentials.",
+			);
 		} finally {
 			setLoading(false);
 		}

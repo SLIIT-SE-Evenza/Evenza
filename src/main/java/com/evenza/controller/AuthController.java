@@ -9,6 +9,7 @@ import com.evenza.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -26,32 +27,30 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @Transactional
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         try {
-            // Check if email already exists
-            if (userRepository.existsByEmail(request.getEmail())) {
+            String cleanEmail = request.getEmail().trim().toLowerCase();
+
+            if (userRepository.existsByEmailIgnoreCase(cleanEmail)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT)
-                        .body("Email address '" + request.getEmail() + "' is already in use.");
+                        .body("Email address '" + cleanEmail + "' is already in use.");
             }
 
-            // Encode password with BCrypt
-            String encodedPassword = passwordEncoder.encode(request.getPassword());
-
-            // Instantiate User using standard constructor/setters
             User user = new User();
-            user.setFullName(request.getFullName());
-            user.setEmail(request.getEmail());
-            user.setPassword(encodedPassword);
-            user.setRole(request.getRole());
+            user.setFullName(request.getFullName().trim());
+            user.setEmail(cleanEmail);
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+            user.setRole(request.getRole().trim());
 
-            User saved = userRepository.save(user);
+            User saved = userRepository.saveAndFlush(user);
 
             String token = "jwt_" + UUID.randomUUID().toString();
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new AuthResponse(token, saved.getId(), saved.getFullName(), saved.getEmail(), saved.getRole()));
 
         } catch (Exception ex) {
-            ex.printStackTrace(); // Prints exact error in Spring Boot terminal
+            ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Registration server error: " + ex.getMessage());
         }
@@ -60,11 +59,20 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
         try {
-            User user = userRepository.findByEmail(request.getEmail()).orElse(null);
+            String cleanEmail = request.getEmail().trim().toLowerCase();
 
-            if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            // Case-insensitive user lookup
+            User user = userRepository.findByEmailIgnoreCase(cleanEmail).orElse(null);
+
+            if (user == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body("Invalid email address or password.");
+                        .body("No registered account found with that email address.");
+            }
+
+            // Verify password against stored BCrypt hash
+            if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Incorrect password. Please try again.");
             }
 
             String token = "jwt_" + UUID.randomUUID().toString();
