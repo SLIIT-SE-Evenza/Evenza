@@ -1,7 +1,9 @@
 package com.evenza.config;
 
+import com.evenza.entity.Category;
 import com.evenza.entity.InventoryItem;
 import com.evenza.entity.User;
+import com.evenza.repository.CategoryRepository;
 import com.evenza.repository.InventoryRepository;
 import com.evenza.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -17,16 +19,23 @@ public class DataInitializer implements CommandLineRunner {
     private final InventoryRepository inventoryRepo;
     private final UserRepository userRepo;
     private final PasswordEncoder encoder;
+    private final CategoryRepository categoryRepo;
 
-    public DataInitializer(InventoryRepository inventoryRepo, UserRepository userRepo, PasswordEncoder encoder) {
+    public DataInitializer(
+            InventoryRepository inventoryRepo,
+            UserRepository userRepo,
+            PasswordEncoder encoder,
+            CategoryRepository categoryRepo
+    ) {
         this.inventoryRepo = inventoryRepo;
         this.userRepo = userRepo;
         this.encoder = encoder;
+        this.categoryRepo = categoryRepo;
     }
 
     @Override
     public void run(String... args) {
-        // Seed default accounts using standard constructor
+        // 1. Seed default accounts
         if (userRepo.count() == 0) {
             User inventoryUser = new User();
             inventoryUser.setFullName("Keshavan M.");
@@ -43,7 +52,17 @@ public class DataInitializer implements CommandLineRunner {
             userRepo.save(customerUser);
         }
 
-        // Seed initial warehouse inventory
+        // 2. Seed equipment categories
+        if (categoryRepo.count() == 0) {
+            categoryRepo.saveAll(List.of(
+                new Category(null, "Seating", "Chairs, benches, and sofas"),
+                new Category(null, "Tables", "Banquet, round, and dining tables"),
+                new Category(null, "Lighting", "Stage, ambient, and spot lighting"),
+                new Category(null, "AV Equipment", "Microphones, speakers, and amplifiers")
+            ));
+        }
+
+        // 3. Seed initial warehouse inventory
         if (inventoryRepo.count() == 0) {
             inventoryRepo.saveAll(List.of(
                 new InventoryItem(null, "INV-1002", "Banquet Velvet Chairs", "Seating", 50, 42, 25, "Good", BigDecimal.valueOf(1500)),
