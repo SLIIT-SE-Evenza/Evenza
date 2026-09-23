@@ -18,7 +18,7 @@ export default function HeroSection() {
 	return (
 		<section
 			id="browse"
-			className="relative pt-12 pb-20 bg-gradient-to-b from-blue-50/60 to-transparent"
+			className="relative pt-12 pb-20 bg-linear-to-b from-blue-50/60 to-transparent"
 		>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 				<span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 mb-4 border border-blue-200">

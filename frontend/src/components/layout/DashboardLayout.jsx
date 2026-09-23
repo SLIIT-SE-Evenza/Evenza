@@ -137,7 +137,7 @@ export default function DashboardLayout({
 			{/* SIDEBAR (Desktop) */}
 			<aside
 				className={`hidden md:flex flex-col border-r border-slate-200 bg-white transition-all duration-300 z-30 ${
-					collapsed ? "w-[72px]" : "w-[260px]"
+					collapsed ? "w-18" : "w-18"
 				}`}
 			>
 				{/* Brand Header */}
