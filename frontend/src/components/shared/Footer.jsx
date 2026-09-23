@@ -1,34 +1,5 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import { CalendarDays, Mail, Globe, Users2, Heart, Code2 } from "lucide-react";
-
-const footerLinks = {
-	Platform: [
-		{ label: "Events", to: "/events" },
-		{ label: "Venues & Vendors", to: "/vendors" },
-		{ label: "Schedule Builder", to: "/schedule" },
-		{ label: "Inventory", to: "/inventory" },
-		{ label: "Promotions", to: "/promotions" },
-	],
-	Company: [
-		{ label: "About Evenza", to: "/#about" },
-		{ label: "Our Team", to: "/#team" },
-		{ label: "Careers", to: "/careers" },
-		{ label: "Contact", to: "/contact" },
-	],
-	Support: [
-		{ label: "Documentation", to: "/docs" },
-		{ label: "Help Center", to: "/help" },
-		{ label: "Privacy Policy", to: "/privacy" },
-		{ label: "Terms of Service", to: "/terms" },
-	],
-};
-
-const socialLinks = [
-	{ icon: Mail, href: "mailto:hello@evenza.lk", label: "Email" },
-	{ icon: Code2, href: "https://github.com", label: "GitHub" },
-	{ icon: Globe, href: "https://twitter.com", label: "Twitter" },
-	{ icon: Users2, href: "https://linkedin.com", label: "LinkedIn" },
-];
 
 export default function Footer() {
 	return (
@@ -61,12 +32,12 @@ export default function Footer() {
 								</a>
 							</li>
 							<li>
-								<a
-									href="/pricing"
+								<Link
+									to="/pricing"
 									className="hover:text-blue-400 transition-colors"
 								>
 									Pricing Packages
-								</a>
+								</Link>
 							</li>
 						</ul>
 					</div>
@@ -78,36 +49,36 @@ export default function Footer() {
 						</h4>
 						<ul className="space-y-2.5 text-slate-400">
 							<li>
-								<a
-									href="/portal/customer"
+								<Link
+									to="/portal/customer"
 									className="hover:text-blue-400 transition-colors"
 								>
 									Customer Portal
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="/portal/manager"
+								<Link
+									to="/portal/manager"
 									className="hover:text-blue-400 transition-colors"
 								>
 									Event Manager Portal
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="/portal/vendor"
+								<Link
+									to="/portal/vendor"
 									className="hover:text-blue-400 transition-colors"
 								>
 									Vendor Management
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="/dashboard/inventory"
+								<Link
+									to="/dashboard/inventory"
 									className="hover:text-blue-400 transition-colors"
 								>
 									Inventory Portal
-								</a>
+								</Link>
 							</li>
 						</ul>
 					</div>
@@ -119,28 +90,28 @@ export default function Footer() {
 						</h4>
 						<ul className="space-y-2.5 text-slate-400">
 							<li>
-								<a
-									href="/inquiries"
+								<Link
+									to="/inquiries"
 									className="hover:text-blue-400 transition-colors"
 								>
 									Submit Inquiry
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="/faq"
+								<Link
+									to="/faq"
 									className="hover:text-blue-400 transition-colors"
 								>
 									Documentation & FAQ
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="/terms"
+								<Link
+									to="/terms"
 									className="hover:text-blue-400 transition-colors"
 								>
 									Service Policy
-								</a>
+								</Link>
 							</li>
 						</ul>
 					</div>
@@ -148,7 +119,7 @@ export default function Footer() {
 					{/* Column 4: System Info */}
 					<div>
 						<div className="flex items-center gap-2 mb-4">
-							<span className="text-xl font-black text-blue-500 tracking-tight">
+							<span className="text-xl font-black text-white tracking-tight">
 								Evenza
 							</span>
 							<span className="text-[10px] font-bold px-2 py-0.5 bg-blue-950 text-blue-300 rounded-full border border-blue-800">
@@ -170,21 +141,24 @@ export default function Footer() {
 				<div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
 					<p>&copy; 2026 Evenza Platform. All rights reserved.</p>
 					<div className="flex flex-wrap gap-6">
-						<a
-							href="/privacy"
+						<Link
+							to="/privacy"
 							className="hover:text-slate-300 transition-colors"
 						>
 							Privacy Policy
-						</a>
-						<a href="/terms" className="hover:text-slate-300 transition-colors">
+						</Link>
+						<Link
+							to="/terms"
+							className="hover:text-slate-300 transition-colors"
+						>
 							Terms of Service
-						</a>
-						<a
-							href="/security"
+						</Link>
+						<Link
+							to="/security"
 							className="hover:text-slate-300 transition-colors"
 						>
 							Security & RBAC
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>
