@@ -19,6 +19,8 @@ import ManagerDashboard from "./pages/manager/ManagerDashboard";
 import VendorDashboard from "./pages/vendor/VendorDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import GuestDashboard from "./pages/guest/GuestDashboard";
+import VendorPromotionsPage from "./pages/vendor/VendorPromotionsPage";
+import CustomerPromotionsPage from "./pages/customer/CustomerPromotionsPage";
 
 /**
  * App — Root component
@@ -49,13 +51,26 @@ function App() {
 									path="/dashboard/inventory/catalog"
 									element={<StockCatalog />}
 								/>
+
 								<Route
 									path="/portal/customer"
 									element={<CustomerDashboard />}
 								/>
+								<Route
+									path="/portal/customer/promotions"
+									element={<CustomerPromotionsPage />}
+								/>
+
 								<Route path="/portal/manager" element={<ManagerDashboard />} />
+
 								<Route path="/portal/vendor" element={<VendorDashboard />} />
+								<Route
+									path="/portal/vendor/promotions"
+									element={<VendorPromotionsPage />}
+								/>
+
 								<Route path="/portal/admin" element={<AdminDashboard />} />
+
 								<Route path="/portal/guest" element={<GuestDashboard />} />
 
 								{/* 404 fallback */}

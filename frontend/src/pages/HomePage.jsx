@@ -1,22 +1,21 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
 	Search,
 	Calendar,
 	MapPin,
-	ChevronRight,
-	ArrowRight,
 	Zap,
 	Layers,
 	Users,
 	ShieldCheck,
+	ChevronRight,
+	ArrowRight,
 	Menu,
 	X,
 } from "lucide-react";
 
 export default function HomePage() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useState({
 		category: "All",
 		location: "",
@@ -24,7 +23,7 @@ export default function HomePage() {
 		budget: "",
 	});
 
-	// Featured Vendor Promotions (Function 6)
+	// Featured Vendor Promotions (FR6)
 	const promotions = [
 		{
 			id: 1,
@@ -55,7 +54,7 @@ export default function HomePage() {
 		},
 	];
 
-	// System Value Highlights
+	// Core Value Propositions
 	const features = [
 		{
 			icon: Zap,
@@ -81,7 +80,7 @@ export default function HomePage() {
 
 	return (
 		<div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col justify-between">
-			{/* 1. TOP NAVIGATION BAR */}
+			{/* 1. TOP NAVIGATION BAR (Centered Links) */}
 			<header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 relative flex items-center justify-between">
 					{/* Brand Logo */}
@@ -96,7 +95,7 @@ export default function HomePage() {
 						</Link>
 					</div>
 
-					{/* Centered Navigation Links */}
+					{/* Centered Desktop Navigation Links */}
 					<nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 absolute left-1/2 -translate-x-1/2">
 						<a href="#browse" className="hover:text-blue-600 transition-colors">
 							Browse Venues & Vendors
@@ -121,7 +120,7 @@ export default function HomePage() {
 						</a>
 					</nav>
 
-					{/* Desktop Auth Buttons (Redirects) */}
+					{/* Desktop Actions */}
 					<div className="hidden md:flex items-center gap-3">
 						<Link
 							to="/login"
@@ -149,26 +148,36 @@ export default function HomePage() {
 					</div>
 				</div>
 
-				{/* Mobile Dropdown (Redirects) */}
+				{/* Mobile Dropdown */}
 				{mobileMenuOpen && (
 					<div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
 						<a
 							href="#browse"
+							onClick={() => setMobileMenuOpen(false)}
 							className="block py-2 text-sm font-medium text-slate-700"
 						>
 							Browse Venues & Vendors
 						</a>
 						<a
 							href="#promotions"
+							onClick={() => setMobileMenuOpen(false)}
 							className="block py-2 text-sm font-medium text-slate-700"
 						>
 							Deals & Packages
 						</a>
 						<a
 							href="#features"
+							onClick={() => setMobileMenuOpen(false)}
 							className="block py-2 text-sm font-medium text-slate-700"
 						>
 							Features
+						</a>
+						<a
+							href="#contact"
+							onClick={() => setMobileMenuOpen(false)}
+							className="block py-2 text-sm font-medium text-slate-700"
+						>
+							Support
 						</a>
 						<div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
 							<Link
@@ -191,7 +200,10 @@ export default function HomePage() {
 			</header>
 
 			{/* 2. HERO SECTION & INTEGRATED SEARCH ENGINE */}
-			<section className="relative pt-12 pb-20 bg-gradient-to-b from-blue-50/60 to-transparent">
+			<section
+				id="browse"
+				className="relative pt-12 pb-20 bg-gradient-to-b from-blue-50/60 to-transparent"
+			>
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 					<span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 mb-4 border border-blue-200">
 						End-to-End Event Coordination & Resource Management
@@ -301,12 +313,12 @@ export default function HomePage() {
 							partners.
 						</p>
 					</div>
-					<a
-						href="/promotions"
+					<Link
+						to="/promotions"
 						className="mt-3 sm:mt-0 text-sm font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1"
 					>
 						View all deals <ChevronRight size={16} />
-					</a>
+					</Link>
 				</div>
 
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -339,9 +351,12 @@ export default function HomePage() {
 								<span className="text-xs text-slate-400 uppercase font-bold tracking-wider">
 									{item.category}
 								</span>
-								<button className="text-sm font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1">
+								<Link
+									to="/promotions"
+									className="text-sm font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1"
+								>
 									Claim Deal <ArrowRight size={14} />
-								</button>
+								</Link>
 							</div>
 						</div>
 					))}
@@ -395,118 +410,179 @@ export default function HomePage() {
 						</p>
 					</div>
 					<div className="flex gap-3">
-						<a
-							href="/register"
+						<Link
+							to="/register"
 							className="px-5 py-2.5 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors text-sm shadow-sm"
 						>
 							Create Account
-						</a>
-						<a
-							href="/login"
+						</Link>
+						<Link
+							to="/login"
 							className="px-5 py-2.5 bg-blue-700 text-white font-semibold rounded-lg hover:bg-blue-800 transition-colors text-sm border border-blue-500"
 						>
 							Sign In
-						</a>
+						</Link>
 					</div>
 				</div>
 			</section>
 
-			{/* 6. GLOBAL FOOTER */}
+			{/* 6. GLOBAL FOOTER (DARK THEME) */}
 			<footer
 				id="contact"
-				className="bg-white border-t border-slate-200 pt-12 pb-8"
+				className="bg-slate-950 text-slate-300 border-t border-slate-800 pt-16 pb-12"
 			>
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8 text-sm">
+					<div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 text-sm">
+						{/* Column 1: Platform Links */}
 						<div>
-							<h4 className="font-bold text-slate-900 mb-3">Platform</h4>
-							<ul className="space-y-2 text-slate-500">
+							<h4 className="font-semibold text-white tracking-wide uppercase text-xs mb-4">
+								Platform
+							</h4>
+							<ul className="space-y-2.5 text-slate-400">
 								<li>
-									<a href="#browse" className="hover:text-blue-600">
+									<a
+										href="#browse"
+										className="hover:text-blue-400 transition-colors"
+									>
 										Venues & Services
 									</a>
 								</li>
 								<li>
-									<a href="#promotions" className="hover:text-blue-600">
+									<a
+										href="#promotions"
+										className="hover:text-blue-400 transition-colors"
+									>
 										Promotions & Deals
 									</a>
 								</li>
 								<li>
-									<a href="/pricing" className="hover:text-blue-600">
+									<Link
+										to="/pricing"
+										className="hover:text-blue-400 transition-colors"
+									>
 										Pricing Packages
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</div>
+
+						{/* Column 2: Portals */}
 						<div>
-							<h4 className="font-bold text-slate-900 mb-3">Roles & Portals</h4>
-							<ul className="space-y-2 text-slate-500">
+							<h4 className="font-semibold text-white tracking-wide uppercase text-xs mb-4">
+								Roles & Portals
+							</h4>
+							<ul className="space-y-2.5 text-slate-400">
 								<li>
-									<a href="/portal/customer" className="hover:text-blue-600">
+									<Link
+										to="/portal/customer"
+										className="hover:text-blue-400 transition-colors"
+									>
 										Customer Portal
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a href="/portal/manager" className="hover:text-blue-600">
+									<Link
+										to="/portal/manager"
+										className="hover:text-blue-400 transition-colors"
+									>
 										Event Manager Portal
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a href="/portal/vendor" className="hover:text-blue-600">
+									<Link
+										to="/portal/vendor"
+										className="hover:text-blue-400 transition-colors"
+									>
 										Vendor Management
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a
-										href="/dashboard/inventory"
-										className="hover:text-blue-600"
+									<Link
+										to="/dashboard/inventory"
+										className="hover:text-blue-400 transition-colors"
 									>
 										Inventory Portal
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</div>
+
+						{/* Column 3: Support */}
 						<div>
-							<h4 className="font-bold text-slate-900 mb-3">Support</h4>
-							<ul className="space-y-2 text-slate-500">
+							<h4 className="font-semibold text-white tracking-wide uppercase text-xs mb-4">
+								Support
+							</h4>
+							<ul className="space-y-2.5 text-slate-400">
 								<li>
-									<a href="/inquiries" className="hover:text-blue-600">
+									<Link
+										to="/inquiries"
+										className="hover:text-blue-400 transition-colors"
+									>
 										Submit Inquiry
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a href="/faq" className="hover:text-blue-600">
+									<Link
+										to="/faq"
+										className="hover:text-blue-400 transition-colors"
+									>
 										Documentation & FAQ
-									</a>
+									</Link>
 								</li>
 								<li>
-									<a href="/terms" className="hover:text-blue-600">
+									<Link
+										to="/terms"
+										className="hover:text-blue-400 transition-colors"
+									>
 										Service Policy
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</div>
+
+						{/* Column 4: System Info */}
 						<div>
-							<h4 className="font-bold text-slate-900 mb-3">Evenza System</h4>
-							<p className="text-xs text-slate-500 leading-relaxed">
+							<div className="flex items-center gap-2 mb-4">
+								<span className="text-xl font-black text-white tracking-tight">
+									Evenza
+								</span>
+								<span className="text-[10px] font-bold px-2 py-0.5 bg-blue-950 text-blue-300 rounded-full border border-blue-800">
+									Platform
+								</span>
+							</div>
+							<p className="text-xs text-slate-400 leading-relaxed mb-4">
 								Centralized Web-Based Event Planning Platform. Developed using
 								modern React, Tailwind CSS, and REST API architecture.
 							</p>
+							<div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-[11px] text-slate-400">
+								<span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+								<span>All Services Operational</span>
+							</div>
 						</div>
 					</div>
 
-					<div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+					{/* Bottom Bar */}
+					<div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
 						<p>&copy; 2026 Evenza Platform. All rights reserved.</p>
-						<div className="flex gap-4">
-							<a href="/privacy" className="hover:text-slate-600">
+						<div className="flex flex-wrap gap-6">
+							<Link
+								to="/privacy"
+								className="hover:text-slate-300 transition-colors"
+							>
 								Privacy Policy
-							</a>
-							<a href="/terms" className="hover:text-slate-600">
+							</Link>
+							<Link
+								to="/terms"
+								className="hover:text-slate-300 transition-colors"
+							>
 								Terms of Service
-							</a>
-							<a href="/security" className="hover:text-slate-600">
+							</Link>
+							<Link
+								to="/security"
+								className="hover:text-slate-300 transition-colors"
+							>
 								Security & RBAC
-							</a>
+							</Link>
 						</div>
 					</div>
 				</div>
