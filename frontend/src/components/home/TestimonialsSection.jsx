@@ -1,5 +1,5 @@
 import React from "react";
-import { Star, Quote, ShieldCheck } from "lucide-react";
+import { Star, ShieldCheck } from "lucide-react";
 
 const userTestimonials = [
 	{

@@ -3,10 +3,11 @@ import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 import HeroSection from "@/components/home/HeroSection";
 import TrustedBySection from "@/components/home/TrustedBySection";
-import MetricsStatsSection from "@/components/home/MetricsStatsSection";
 import PromotionsSection from "@/components/home/PromotionsSection";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
+import MetricsStatsSection from "@/components/home/MetricsStatsSection";
+import FaqSection from "@/components/home/FaqSection";
 import CtaBannerSection from "@/components/home/CtaBannerSection";
 
 export default function HomePage() {
@@ -23,6 +24,7 @@ export default function HomePage() {
 				<FeaturesSection />
 				<TestimonialsSection />
 				<MetricsStatsSection />
+				<FaqSection />
 				<CtaBannerSection />
 			</main>
 
