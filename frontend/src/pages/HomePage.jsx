@@ -7,6 +7,7 @@ import PromotionsSection from "@/components/home/PromotionsSection";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import MetricsStatsSection from "@/components/home/MetricsStatsSection";
+import PricingSection from "@/components/home/PricingSection";
 import FaqSection from "@/components/home/FaqSection";
 import CtaBannerSection from "@/components/home/CtaBannerSection";
 
@@ -24,6 +25,7 @@ export default function HomePage() {
 				<FeaturesSection />
 				<TestimonialsSection />
 				<MetricsStatsSection />
+				<PricingSection />
 				<FaqSection />
 				<CtaBannerSection />
 			</main>
