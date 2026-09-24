@@ -11,29 +11,33 @@ export default function HeroSection() {
 
 	const handleSearch = (e) => {
 		e.preventDefault();
-		// Dispatch or trigger search navigation
 		console.log("Search parameters:", searchParams);
 	};
 
 	return (
 		<section
 			id="browse"
-			className="relative pt-12 pb-20 bg-linear-to-b from-blue-50/60 to-transparent"
+			className="relative min-h-[calc(100vh-7rem)] flex flex-col justify-center items-center py-6 bg-linear-to-b from-blue-50/60 to-transparent"
 		>
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full flex flex-col items-center">
+				{/* Category Pill */}
 				<span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 mb-4 border border-blue-200">
 					End-to-End Event Coordination & Resource Management
 				</span>
+
+				{/* Hero Title */}
 				<h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight max-w-4xl mx-auto">
 					Design, coordinate, and execute events without the chaos.
 				</h1>
+
+				{/* Subtitle */}
 				<p className="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
 					A single workspace unifying venue bookings, vendors, live inventory,
 					and activity schedules into an automated execution pipeline.
 				</p>
 
-				{/* Real-time Discovery Search Bar */}
-				<div className="mt-10 max-w-4xl mx-auto bg-white p-3 sm:p-4 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200">
+				{/* Discovery Search Bar */}
+				<div className="mt-8 max-w-4xl w-full mx-auto bg-white p-3 sm:p-4 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200">
 					<form
 						onSubmit={handleSearch}
 						className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-left"

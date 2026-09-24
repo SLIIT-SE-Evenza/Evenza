@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 import HeroSection from "@/components/home/HeroSection";
+import TrustedBySection from "@/components/home/TrustedBySection";
 import PromotionsSection from "@/components/home/PromotionsSection";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import CtaBannerSection from "@/components/home/CtaBannerSection";
@@ -15,6 +16,7 @@ export default function HomePage() {
 			{/* Main Content Sections */}
 			<main className="flex-1">
 				<HeroSection />
+				<TrustedBySection />
 				<PromotionsSection />
 				<FeaturesSection />
 				<CtaBannerSection />
