@@ -8,12 +8,14 @@ export default function Footer() {
 			className="bg-slate-950 text-slate-300 border-t border-slate-800 pt-16 pb-12"
 		>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 text-sm">
-					{/* Column 1: Platform Links (Synchronized with Navbar) */}
+				<div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 text-sm items-start">
+					{/* Column 1: Platform Links */}
 					<div>
-						<h4 className="font-semibold text-white tracking-wide uppercase text-xs mb-4">
-							Platform
-						</h4>
+						<div className="h-7 flex items-center mb-4">
+							<h4 className="font-semibold text-white tracking-wide uppercase text-xs">
+								Platform
+							</h4>
+						</div>
 						<ul className="space-y-2.5 text-slate-400">
 							<li>
 								<a
@@ -52,9 +54,11 @@ export default function Footer() {
 
 					{/* Column 2: Portals */}
 					<div>
-						<h4 className="font-semibold text-white tracking-wide uppercase text-xs mb-4">
-							Roles & Portals
-						</h4>
+						<div className="h-7 flex items-center mb-4">
+							<h4 className="font-semibold text-white tracking-wide uppercase text-xs">
+								Roles & Portals
+							</h4>
+						</div>
 						<ul className="space-y-2.5 text-slate-400">
 							<li>
 								<Link
@@ -93,9 +97,11 @@ export default function Footer() {
 
 					{/* Column 3: Support */}
 					<div>
-						<h4 className="font-semibold text-white tracking-wide uppercase text-xs mb-4">
-							Support
-						</h4>
+						<div className="h-7 flex items-center mb-4">
+							<h4 className="font-semibold text-white tracking-wide uppercase text-xs">
+								Support
+							</h4>
+						</div>
 						<ul className="space-y-2.5 text-slate-400">
 							<li>
 								<Link
@@ -124,12 +130,12 @@ export default function Footer() {
 						</ul>
 					</div>
 
-					{/* Column 4: System Info with Registered Symbol */}
+					{/* Column 4: System Info / Brand Logo */}
 					<div>
-						<div className="flex items-center gap-2 mb-4">
-							<span className="text-xl font-black text-white tracking-tight flex items-center">
+						<div className="h-7 flex items-center mb-4">
+							<span className="text-xl font-black text-white tracking-tight flex items-center leading-none">
 								Evenza
-								<sup className="text-[10px] font-bold text-white ml-0.5 -top-1.5 select-none">
+								<sup className="text-[10px] font-bold text-slate-400 ml-0.5 -top-1 select-none">
 									®
 								</sup>
 							</span>
