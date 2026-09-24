@@ -18,7 +18,6 @@ import {
 	Clock,
 	Menu,
 	X,
-	Sparkles,
 } from "lucide-react";
 
 export default function DashboardLayout({
@@ -136,32 +135,35 @@ export default function DashboardLayout({
 		<div className="min-h-screen bg-slate-50 text-slate-900 flex">
 			{/* SIDEBAR (Desktop) */}
 			<aside
-				className={`hidden md:flex flex-col border-r border-slate-200 bg-white transition-all duration-300 z-30 ${
-					collapsed ? "w-18" : "w-18"
+				className={`hidden md:flex flex-col border-r border-slate-200 bg-white transition-all duration-300 shrink-0 sticky top-0 h-screen z-30 ${
+					collapsed ? "w-20" : "w-64"
 				}`}
 			>
 				{/* Brand Header */}
-				<div className="h-16 px-4 border-b border-slate-200 flex items-center justify-between">
+				<div
+					className={`h-16 px-4 border-b border-slate-200 flex items-center ${collapsed ? "justify-center" : "justify-between"}`}
+				>
 					<Link to="/" className="flex items-center gap-2 overflow-hidden">
 						<span className="text-xl font-black text-blue-600 tracking-tight">
-							Evenza
+							{collapsed ? "E" : "Evenza"}
 						</span>
 						{!collapsed && (
-							<span className="text-[10px] font-bold px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full border border-blue-200 truncate">
+							<span className="text-[10px] font-bold px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full border border-blue-200 truncate max-w-[100px]">
 								{activeRole}
 							</span>
 						)}
 					</Link>
 					<button
 						onClick={() => setCollapsed(!collapsed)}
-						className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg"
+						className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+						title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
 					>
 						{collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
 					</button>
 				</div>
 
 				{/* Sidebar Navigation */}
-				<nav className="flex-1 p-3 space-y-1">
+				<nav className="flex-1 p-3 space-y-1.5 overflow-y-auto">
 					{navLinks.map((item) => {
 						const Icon = item.icon;
 						const active = location.pathname === item.path;
@@ -169,14 +171,17 @@ export default function DashboardLayout({
 							<Link
 								key={item.path}
 								to={item.path}
-								className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+								title={collapsed ? item.label : undefined}
+								className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+									collapsed ? "justify-center px-2" : ""
+								} ${
 									active
-										? "bg-blue-50 text-blue-600 font-semibold"
+										? "bg-blue-50 text-blue-600 font-semibold shadow-xs"
 										: "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
 								}`}
 							>
-								<Icon size={18} className="shrink-0" />
-								{!collapsed && <span>{item.label}</span>}
+								<Icon size={19} className="shrink-0" />
+								{!collapsed && <span className="truncate">{item.label}</span>}
 							</Link>
 						);
 					})}
@@ -186,7 +191,10 @@ export default function DashboardLayout({
 				<div className="p-3 border-t border-slate-200">
 					<button
 						onClick={handleLogout}
-						className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+						title={collapsed ? "Sign Out" : undefined}
+						className={`w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-colors ${
+							collapsed ? "justify-center px-2" : ""
+						}`}
 					>
 						<LogOut size={18} className="shrink-0" />
 						{!collapsed && <span>Sign Out</span>}
@@ -219,7 +227,7 @@ export default function DashboardLayout({
 							<input
 								type="text"
 								placeholder="Ctrl + K to search..."
-								className="pl-9 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs w-48 lg:w-64 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none"
+								className="pl-9 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs w-48 lg:w-64 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
 							/>
 						</div>
 
@@ -231,7 +239,7 @@ export default function DashboardLayout({
 
 						{/* User Profile Pill */}
 						<div className="flex items-center gap-2 pl-2 border-l border-slate-200">
-							<div className="w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs">
+							<div className="w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs shadow-xs">
 								{user?.name?.[0]?.toUpperCase() || "U"}
 							</div>
 							<div className="hidden lg:block text-left">
@@ -251,6 +259,57 @@ export default function DashboardLayout({
 					{children}
 				</main>
 			</div>
+
+			{/* Mobile Drawer (When screen < md) */}
+			{mobileOpen && (
+				<div className="fixed inset-0 z-50 md:hidden flex">
+					<div
+						className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs"
+						onClick={() => setMobileOpen(false)}
+					/>
+					<div className="relative w-64 bg-white h-full flex flex-col z-10 shadow-xl">
+						<div className="h-16 px-4 border-b border-slate-200 flex items-center justify-between">
+							<span className="text-xl font-black text-blue-600">Evenza</span>
+							<button
+								onClick={() => setMobileOpen(false)}
+								className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg"
+							>
+								<X size={18} />
+							</button>
+						</div>
+						<nav className="flex-1 p-3 space-y-1">
+							{navLinks.map((item) => {
+								const Icon = item.icon;
+								const active = location.pathname === item.path;
+								return (
+									<Link
+										key={item.path}
+										to={item.path}
+										onClick={() => setMobileOpen(false)}
+										className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium ${
+											active
+												? "bg-blue-50 text-blue-600 font-semibold"
+												: "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+										}`}
+									>
+										<Icon size={18} />
+										<span>{item.label}</span>
+									</Link>
+								);
+							})}
+						</nav>
+						<div className="p-3 border-t border-slate-200">
+							<button
+								onClick={handleLogout}
+								className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg"
+							>
+								<LogOut size={18} />
+								<span>Sign Out</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

@@ -132,9 +132,9 @@ export default function RegisterPage() {
 					<Link to="/" className="inline-flex items-center gap-2 mb-3">
 						<span className="text-2xl font-black tracking-tight text-blue-600">
 							Evenza
-						</span>
-						<span className="text-xs font-semibold px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full border border-blue-200">
-							Platform
+							<sup className="text-[10px] font-bold text-blue-600 ml-0.5 -top-3 select-none">
+								®
+							</sup>
 						</span>
 					</Link>
 					<h2 className="text-2xl font-bold text-slate-900 tracking-tight">
