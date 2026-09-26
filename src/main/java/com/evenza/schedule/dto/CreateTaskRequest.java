@@ -2,6 +2,7 @@ package com.evenza.schedule.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
@@ -9,10 +10,13 @@ import java.time.LocalDateTime;
 public record CreateTaskRequest(
 
         @NotNull(message = "Event ID is required")
+        @Positive(message = "Event ID must be positive")
         Long eventId,
 
+        @Positive(message = "Milestone ID must be positive")
         Long milestoneId,
 
+        @Positive(message = "Staff ID must be positive")
         Long assignedStaffId,
 
         @NotBlank(message = "Task title is required")

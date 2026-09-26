@@ -86,6 +86,7 @@ const modules = [
     icon: Package,
     title: "Inventory Management",
     subtitle: "FR5",
+    href: "http://localhost:8080/inventory/index.html",
     description:
       "Track all event equipment and assets with real-time stock levels, automated low-stock alerts, and detailed check-in/check-out logs.",
     solidBg: "bg-brand-dark/90",
@@ -553,14 +554,28 @@ export default function HomePage() {
                   ))}
                 </div>
                 <div className="mt-6 pt-6 border-t border-brand-cream/40 flex items-center gap-3">
-                  <Link
-                    to="/register"
-                    id={`module-cta-${modules[activeModuleIdx].id}`}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-brand-teal hover:bg-brand-dark transition-all shadow-sm hover:shadow-md"
-                  >
-                    Get Access <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                  </Link>
-                  <span className="text-xs text-slate-400">Free to start • No card required</span>
+                  {modules[activeModuleIdx].href ? (
+                    <a
+                      href={modules[activeModuleIdx].href}
+                      id={`module-cta-${modules[activeModuleIdx].id}`}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-brand-teal hover:bg-brand-dark transition-all shadow-sm hover:shadow-md"
+                    >
+                      Open Inventory <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </a>
+                  ) : (
+                    <Link
+                      to="/register"
+                      id={`module-cta-${modules[activeModuleIdx].id}`}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-brand-teal hover:bg-brand-dark transition-all shadow-sm hover:shadow-md"
+                    >
+                      Get Access <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </Link>
+                  )}
+                  <span className="text-xs text-slate-400">
+                    {modules[activeModuleIdx].href
+                      ? "Available to authorized inventory users"
+                      : "Free to start • No card required"}
+                  </span>
                 </div>
               </div>
               );

@@ -30,8 +30,9 @@ public class Milestone {
     @Column(nullable = false, length = 20)
     private MilestoneStatus status = MilestoneStatus.NOT_STARTED;
 
-    @OneToMany(mappedBy = "milestone", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<Task> tasks = new ArrayList<>();
+    // Tasks are not cascade-deleted when a milestone is removed.
+    @OneToMany(mappedBy = "milestone")
+    private List<Task> task= new ArrayList<>();
 
     protected Milestone(){
     }
@@ -79,9 +80,18 @@ public class Milestone {
         this.status = MilestoneStatus.ACHIEVED;
     }
     public void markAtRisk(){
+        if (status == MilestoneStatus.ACHIEVED) {
+            throw new IllegalArgumentException("An achieved milestone cannot be marked at risk");
+        }
         this.status = MilestoneStatus.AT_RISK;
     }
+    public void markOnTrack(){
+        if (status == MilestoneStatus.ACHIEVED) {
+            throw new IllegalArgumentException("An achieved milestone cannot be reopened");
+        }
+        this.status = MilestoneStatus.ON_TRACK;
+    }
     public List<Task> getTask(){
-        return tasks;
+        return task;
     }
 }

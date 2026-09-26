@@ -1,48 +1,138 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const AuthContext = createContext(null);
 
+const AUTH_API = "http://localhost:8080/api/auth";
+
+// Reads a useful backend error message.
+async function readError(response, fallbackMessage) {
+  try {
+    const data = await response.json();
+    return data.message || data.detail || fallbackMessage;
+  } catch {
+    return fallbackMessage;
+  }
+}
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(() => localStorage.getItem("evenza_token"));
   const [loading, setLoading] = useState(true);
 
+  // Checks whether the browser already has a valid login session.
   useEffect(() => {
-    // Simulate loading user from stored token
-    const storedUser = localStorage.getItem("evenza_user");
-    if (storedUser && token) {
-      setUser(JSON.parse(storedUser));
+    async function loadCurrentUser() {
+      try {
+        const response = await fetch(`${AUTH_API}/me`, {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (response.ok) {
+          setUser(await response.json());
+        } else {
+          setUser(null);
+        }
+      } catch {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
     }
-    setLoading(false);
-  }, [token]);
 
-  const login = (userData, authToken) => {
-    setUser(userData);
-    setToken(authToken);
-    localStorage.setItem("evenza_token", authToken);
-    localStorage.setItem("evenza_user", JSON.stringify(userData));
-  };
+    loadCurrentUser();
+  }, []);
 
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem("evenza_token");
-    localStorage.removeItem("evenza_user");
-  };
+  // Sends the email and password to the real Spring Boot backend.
+  async function login(email, password) {
+    const response = await fetch(`${AUTH_API}/login`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
 
-  const isAuthenticated = !!user && !!token;
+    if (!response.ok) {
+      throw new Error(
+        await readError(response, "Login failed")
+      );
+    }
+
+    const authenticatedUser = await response.json();
+    setUser(authenticatedUser);
+
+    return authenticatedUser;
+  }
+
+  // Creates a new CUSTOMER account.
+  async function register(registrationData) {
+    const response = await fetch(`${AUTH_API}/register`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(registrationData),
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        await readError(response, "Registration failed")
+      );
+    }
+
+    return response.json();
+  }
+
+  // Destroys the backend session and removes the frontend user.
+  async function logout() {
+    try {
+      await fetch(`${AUTH_API}/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } finally {
+      setUser(null);
+    }
+  }
+
+  const isAuthenticated = user !== null;
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated, loading }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        login,
+        register,
+        logout,
+        isAuthenticated,
+        loading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
 export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
-  return ctx;
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error(
+      "useAuth must be used within AuthProvider"
+    );
+  }
+
+  return context;
 }
 
 export default AuthContext;

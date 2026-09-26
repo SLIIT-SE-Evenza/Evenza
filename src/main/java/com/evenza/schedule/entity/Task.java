@@ -1,6 +1,6 @@
 package com.evenza.schedule.entity;
 
-import com.evenza.user.entity.User;
+import com.evenza.common.user.User;
 import com.evenza.event.entity.Event;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -81,10 +81,16 @@ public class Task {
 
     }
     public void markInProgress() {
+        if (status != TaskStatus.PENDING && status != TaskStatus.OVERDUE) {
+            throw new IllegalArgumentException("Only pending or overdue tasks can be started");
+        }
         this.status = TaskStatus.IN_PROGRESS;
     }
 
     public void markCompleted() {
+        if (status != TaskStatus.IN_PROGRESS && status != TaskStatus.OVERDUE) {
+            throw new IllegalArgumentException("Only in-progress or overdue tasks can be completed");
+        }
         this.status = TaskStatus.COMPLETED;
     }
 
@@ -95,12 +101,29 @@ public class Task {
 
     }
 
-    public void cancel() {
+    public  void cancel() {
+        if (status == TaskStatus.COMPLETED || status == TaskStatus.CANCELLED) {
+            throw new IllegalArgumentException("Completed or cancelled tasks cannot be cancelled again");
+        }
         this.status = TaskStatus.CANCELLED;
     }
 
     public void assignToMilestone(Milestone milestone) {
         this.milestone = milestone;
+    }
+
+    /** Updates every editable scheduling field in one consistent operation. */
+    public void updateDetails(
+            String title,
+            String description,
+            LocalDateTime startTime,
+            LocalDateTime endTime,
+            LocalDateTime deadline) {
+        this.title = title;
+        this.description = description;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.deadline = deadline;
     }
 
     public Long getId() {

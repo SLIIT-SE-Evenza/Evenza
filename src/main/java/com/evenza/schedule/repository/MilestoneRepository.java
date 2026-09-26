@@ -7,7 +7,11 @@ import java.util.List;
 
 public interface MilestoneRepository extends JpaRepository<Milestone, Long> {
 
-    List<Milestone> findByEventId(Long eventId);
+    List<Milestone> findByEventIdOrderByTargetDateAsc(Long eventId);
+
+    boolean existsByEventIdAndNameIgnoreCase(Long eventId, String name);
+
+    boolean existsByEventIdAndNameIgnoreCaseAndIdNot(Long eventId, String name, Long id);
 
 
 }

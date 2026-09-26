@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Evenza inventory and equipment management">
+    <title>Evenza Inventory</title>
+    <link rel="stylesheet" href="/assets/module.css">
+    <link rel="stylesheet" href="/inventory/inventory.css">
+</head>
+<body class="maroon">
+<div class="shell">
+    <aside class="side inventory-side">
+        <div class="brand">evenza<small>Inventory operations</small></div>
+        <nav class="nav">
+            <a href="/">Overview</a>
+            <a href="/events/index.html">Events</a>
+            <a href="/booking/index.html">Bookings</a>
+            <a href="/schedule/index.html">Schedule</a>
+            <a href="/inquiry/index.html">Inquiry</a>
+            <a class="active" href="/inventory/index.html">Inventory</a>
+            <a href="/promotion/index.html">Promotions</a>
+        </nav>
+        <div class="side-status">
+            <span class="online-dot"></span>
+            <div><strong>System online</strong><small>Inventory API connected</small></div>
+        </div>
+    </aside>
+
+    <main class="content inventory-content">
+        <header class="top inventory-top">
+            <div>
+                <div class="eyebrow">INVENTORY MANAGEMENT</div>
+                <h1>Equipment control center</h1>
+                <p>Track stock, protect safety levels and allocate equipment to events.</p>
+            </div>
+            <button class="btn secondary refresh-btn" id="refreshBtn" type="button">↻ Refresh data</button>
+        </header>
+
+        <section class="hero inventory-hero">
+            <div>
+                <div class="hero-label">SMART ASSET CONTROL</div>
+                <h2>Every event resource accounted for</h2>
+                <p>Know what is available, allocated and running low in real time.</p>
+            </div>
+            <button class="btn ghost" id="focusItemBtn" type="button">+ New inventory item</button>
+        </section>
+
+        <section class="stats inventory-stats" aria-label="Inventory summary">
+            <article class="stat">
+                <span class="stat-icon">◆</span>
+                <div><strong id="totalItems">0</strong><span>Inventory items</span></div>
+            </article>
+            <article class="stat">
+                <span class="stat-icon">▦</span>
+                <div><strong id="totalUnits">0</strong><span>Total units</span></div>
+            </article>
+            <article class="stat">
+                <span class="stat-icon">✓</span>
+                <div><strong id="allocatedUnits">0</strong><span>Allocated</span></div>
+            </article>
+            <article class="stat warning-stat">
+                <span class="stat-icon">!</span>
+                <div><strong id="lowStock">0</strong><span>Low stock</span></div>
+            </article>
+        </section>
+
+        <div class="grid inventory-grid">
+            <section class="card span-4 glass-card item-form-card management-only" id="itemFormCard">
+                <div class="card-heading">
+                    <div>
+                        <div class="section-label">ASSET DETAILS</div>
+                        <h3>Add inventory item</h3>
+                    </div>
+                    <span class="card-symbol">＋</span>
+                </div>
+
+                <form id="itemForm" novalidate>
+                    <label for="itemName">Item name</label>
+                    <input id="itemName" maxlength="150" required placeholder="LED Stage Light">
+
+                    <div class="form-grid">
+                        <div>
+                            <label for="itemSku">SKU <small>(optional)</small></label>
+                            <input id="itemSku" maxlength="50" placeholder="LIGHT-002">
+                        </div>
+                        <div>
+                            <label for="itemCategory">Category</label>
+                            <select id="itemCategory" required></select>
+                        </div>
+                        <div>
+                            <label for="totalQuantity">Total quantity</label>
+                            <input id="totalQuantity" type="number" min="1" step="1" value="1" required>
+                        </div>
+                        <div>
+                            <label for="safetyLimit">Safety limit</label>
+                            <input id="safetyLimit" type="number" min="0" step="1" value="5" required>
+                        </div>
+                        <div>
+                            <label for="conditionStatus">Condition</label>
+                            <select id="conditionStatus" required>
+                                <option value="Good">Good</option>
+                                <option value="Fair">Fair</option>
+                                <option value="Needs Maintenance">Needs maintenance</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="unitCost">Unit cost (LKR)</label>
+                            <input id="unitCost" type="number" min="0" step="0.01" placeholder="15000">
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn" type="submit">Save item</button>
+                        <button class="btn secondary" id="clearItemBtn" type="button">Clear</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card span-8 glass-card register-card">
+                <div class="register-heading">
+                    <div>
+                        <div class="section-label">STOCK WORKFLOW</div>
+                        <h3>Inventory register</h3>
+                    </div>
+                    <div class="inventory-tools">
+                        <input id="itemSearch" type="search" placeholder="Search items...">
+                        <select id="categoryFilter" aria-label="Filter by category">
+                            <option value="ALL">All categories</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ITEM</th>
+                            <th>STOCK</th>
+                            <th>ALLOCATED</th>
+                            <th>AVAILABLE</th>
+                            <th>CONDITION</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                        </thead>
+                        <tbody id="inventoryRows"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="card span-4 glass-card category-card management-only">
+                <div class="card-heading">
+                    <div>
+                        <div class="section-label">CLASSIFICATION</div>
+                        <h3>Create category</h3>
+                    </div>
+                    <span class="card-symbol">◇</span>
+                </div>
+                <form id="categoryForm" novalidate>
+                    <label for="categoryName">Category name</label>
+                    <input id="categoryName" maxlength="100" required placeholder="Audio Equipment">
+                    <label for="categoryDescription">Description</label>
+                    <textarea id="categoryDescription" maxlength="500" rows="3"
+                              placeholder="Equipment used for event sound..."></textarea>
+                    <div class="actions">
+                        <button class="btn" type="submit">Add category</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card span-8 glass-card operations-card">
+                <div class="register-heading">
+                    <div>
+                        <div class="section-label">LIVE OPERATIONS</div>
+                        <h3>Stock and event allocation</h3>
+                    </div>
+                    <span class="live-status"><span></span>Live availability</span>
+                </div>
+
+                <div class="operation-grid">
+                    <form id="adjustForm" class="operation-panel management-only" novalidate>
+                        <h4>Adjust stock</h4>
+                        <p>Add new deliveries or record stock reductions.</p>
+                        <label for="adjustItem">Inventory item</label>
+                        <select id="adjustItem" required></select>
+                        <div class="form-grid">
+                            <div>
+                                <label for="stockDelta">Change</label>
+                                <input id="stockDelta" type="number" step="1" required placeholder="5 or -2">
+                            </div>
+                            <div>
+                                <label for="stockReason">Reason</label>
+                                <input id="stockReason" maxlength="250" required placeholder="New delivery">
+                            </div>
+                        </div>
+                        <button class="btn" type="submit">Update stock</button>
+                    </form>
+
+                    <form id="allocateForm" class="operation-panel" novalidate>
+                        <h4>Allocate to event</h4>
+                        <p>Reserve available equipment for an approved event.</p>
+                        <label for="allocationEvent">Event</label>
+                        <select id="allocationEvent" required></select>
+                        <div class="form-grid">
+                            <div>
+                                <label for="allocationItem">Inventory item</label>
+                                <select id="allocationItem" required></select>
+                            </div>
+                            <div>
+                                <label for="allocationQuantity">Quantity</label>
+                                <input id="allocationQuantity" type="number" min="1" step="1" value="1" required>
+                            </div>
+                        </div>
+                        <button class="btn" type="submit">Allocate equipment</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<div class="toast"></div>
+<script src="/assets/common.js"></script>
+<script src="/inventory/inventory.js"></script>
+</body>
+</html>
