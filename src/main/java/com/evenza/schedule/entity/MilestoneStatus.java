@@ -1,8 +1,9 @@
 package com.evenza.schedule.entity;
 
 public enum MilestoneStatus {
-    PENDING,
-    IN_PROGRESS,
-    COMPLETED,
-    CANCELLED
+    NOT_STARTED,
+    ON_TRACK,
+    AT_RISK,
+    ACHIEVED
 }
+

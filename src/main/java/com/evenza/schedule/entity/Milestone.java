@@ -2,47 +2,86 @@ package com.evenza.schedule.entity;
 
 import com.evenza.entity.Event;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.*;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "milestones")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Milestone {
 
+
+public class Milestone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(nullable = false)
-    private String title;
-
-    private String description;
-
-    private LocalDate targetDate;
-
-    @Enumerated(EnumType.STRING)
-    private MilestoneStatus status; // Uses your MilestoneStatus.java enum
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event_id",nullable = false)
     private Event event;
 
-    private LocalDateTime createdAt;
+    @Column(nullable = false, length = 150)
+    private String name;
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        if (this.status == null) {
-            this.status = MilestoneStatus.PENDING;
-        }
+    @Column(name ="target_date", nullable = false)
+    private LocalDate targetDate;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private MilestoneStatus status = MilestoneStatus.NOT_STARTED;
+
+    @OneToMany(mappedBy = "milestone", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<Task> task= new ArrayList<>();
+
+    protected Milestone(){
+    }
+
+    //Constructor
+    public Milestone (Event event, String name, LocalDate targetDate){
+        this.event = event;
+        this.name = name;
+        this.targetDate =targetDate;
+    }
+
+    //Getters and Setters
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LocalDate getTargetDate() {
+        return targetDate;
+    }
+
+    public void setTargetDate(LocalDate targetDate) {
+        this.targetDate = targetDate;
+    }
+
+    public MilestoneStatus getStatus() {
+        return status;
+    }
+
+    //functions
+    public void markAchieved(){
+        this.status = MilestoneStatus.ACHIEVED;
+    }
+    public void markAtRisk(){
+        this.status = MilestoneStatus.AT_RISK;
+    }
+    public List<Task> getTask(){
+        return task;
     }
 }
