@@ -6,58 +6,52 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-/**
- * Access checks for promotion management.
- *
- * Uses the authenticated account supplied by Spring Security.
- */
+/** Centralized role and ownership checks for Promotion management. */
 @Component
 public class PromotionAccess {
 
     private static final String VENDOR_ROLE = "ROLE_VENDOR";
-
-    private static final String SERVICE_PROVIDER_ROLE =
-            "ROLE_SERVICE_PROVIDER";
+    private static final String ADMIN_ROLE = "ROLE_ADMIN";
 
     /**
-     * Requires a logged-in vendor or service provider.
-     *
-     * @return the authenticated account's username
+     * Requires a logged-in vendor or administrator and returns the account email.
+     * The email is stored as the promotion owner username.
      */
     public String requireVendor() {
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-        if (!isAuthenticatedAccount(authentication)) {
-            // Evaluation mode: SecurityConfig intentionally permits all requests.
-            // This stable owner name lets the CRUD demo work until real login is added.
-            return "evaluation-vendor";
-        }
+        Authentication authentication = currentAuthentication();
 
-        if (!hasVendorRole(authentication)) {
+        if (!hasRole(authentication, VENDOR_ROLE)
+                && !hasRole(authentication, ADMIN_ROLE)) {
             throw new AccessDeniedException(
-                    "Only vendors and service providers can manage promotions."
+                    "Only vendors and administrators can manage promotions."
             );
         }
 
         String username = authentication.getName();
-
         if (username == null || username.isBlank()) {
             throw new AccessDeniedException(
-                    "The authenticated account could not be identified."
+                    "The authenticated promotion account could not be identified."
             );
         }
-
         return username;
     }
 
-    /**
-     * Checks whether the current vendor owns a promotion.
-     *
-     * Anonymous users and users with other roles return false.
-     */
+    public boolean isAdmin() {
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        return isAuthenticatedAccount(authentication)
+                && hasRole(authentication, ADMIN_ROLE);
+    }
+
+    /** Administrators may inspect every promotion; vendors may inspect their own. */
     public boolean isOwner(String ownerUsername) {
         if (ownerUsername == null || ownerUsername.isBlank()) {
             return false;
+        }
+        if (isAdmin()) {
+            return true;
         }
 
         try {
@@ -67,40 +61,39 @@ public class PromotionAccess {
         }
     }
 
-    /**
-     * Requires ownership before a protected operation.
-     */
+    /** Administrators may manage all promotions; vendors are ownership restricted. */
     public void requireOwner(String ownerUsername) {
-        String currentUsername = requireVendor();
+        if (isAdmin()) {
+            return;
+        }
 
+        String currentUsername = requireVendor();
         if (!currentUsername.equals(ownerUsername)) {
             throw new AccessDeniedException(
-                    "You can only manage your own promotions."
+                    "You can only manage promotions created by your vendor account."
             );
         }
     }
-    /**
-     * Anonymous authentication must not be treated as a login.
-     */
-    private boolean isAuthenticatedAccount(
-            Authentication authentication
-    ) {
+
+    private Authentication currentAuthentication() {
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        if (!isAuthenticatedAccount(authentication)) {
+            throw new AccessDeniedException("Log in before managing promotions.");
+        }
+        return authentication;
+    }
+
+    private boolean isAuthenticatedAccount(Authentication authentication) {
         return authentication != null
                 && authentication.isAuthenticated()
                 && !(authentication instanceof AnonymousAuthenticationToken);
     }
 
-    /**
-     * Accepts either of the supported provider roles.
-     */
-    private boolean hasVendorRole(Authentication authentication) {
-        return authentication.getAuthorities()
-                .stream()
-                .anyMatch(authority ->
-                        VENDOR_ROLE.equals(authority.getAuthority())
-                                || SERVICE_PROVIDER_ROLE.equals(
-                                authority.getAuthority()
-                        )
-                );
+    private boolean hasRole(Authentication authentication, String role) {
+        return authentication.getAuthorities().stream()
+                .anyMatch(authority -> role.equals(authority.getAuthority()));
     }
 }

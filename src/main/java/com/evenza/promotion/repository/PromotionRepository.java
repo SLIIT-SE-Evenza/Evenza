@@ -1,9 +1,7 @@
 package com.evenza.promotion.repository;
 
 import com.evenza.promotion.entity.Promotion;
-
 import jakarta.persistence.LockModeType;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
@@ -21,6 +19,8 @@ public interface PromotionRepository
     List<Promotion> findByOwnerUsernameOrderByIdDesc(
             String ownerUsername
     );
+
+    List<Promotion> findAllByOrderByIdDesc();
     // All currently active offers.
     @Query("""
             SELECT p

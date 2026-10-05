@@ -1,6 +1,5 @@
 package com.evenza.promotion.controller;
 
-import com.evenza.promotion.entity.Promotion;
 import com.evenza.promotion.service.PromotionService;
 
 import org.springframework.http.CacheControl;

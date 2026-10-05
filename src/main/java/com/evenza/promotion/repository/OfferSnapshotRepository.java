@@ -1,7 +1,6 @@
 package com.evenza.promotion.repository;
 
 import com.evenza.promotion.entity.OfferSnapshot;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
