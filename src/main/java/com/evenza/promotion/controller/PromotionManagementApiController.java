@@ -1,5 +1,7 @@
 package com.evenza.promotion.controller;
 
+import com.evenza.promotion.dto.PromotionForm;
+import com.evenza.promotion.entity.Promotion;
 import com.evenza.promotion.service.PromotionService;
 import com.evenza.promotion.service.PromotionAnalyticsService;
 import jakarta.validation.Valid;

@@ -2,6 +2,7 @@ package com.evenza.promotion.repository;
 
 import com.evenza.promotion.entity.Engagement;
 import com.evenza.promotion.entity.Engagement.Kind;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

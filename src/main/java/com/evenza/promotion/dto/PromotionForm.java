@@ -1,5 +1,7 @@
 package com.evenza.promotion.dto;
 
+import com.evenza.promotion.entity.DiscountType;
+
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;

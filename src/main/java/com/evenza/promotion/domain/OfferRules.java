@@ -1,5 +1,7 @@
 package com.evenza.promotion.domain;
 
+import com.evenza.promotion.entity.DiscountType;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;

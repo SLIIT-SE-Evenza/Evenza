@@ -4,7 +4,9 @@ import com.evenza.promotion.entity.OfferSnapshot;
 import com.evenza.promotion.entity.Promotion;
 import com.evenza.promotion.repository.OfferSnapshotRepository;
 import com.evenza.promotion.repository.PromotionRepository;
+
 import jakarta.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
