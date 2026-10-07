@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Evenza Promotions</title>
+    <link rel="stylesheet" href="/assets/module.css">
+    <link rel="stylesheet" href="/promotion/promotion.css">
+</head>
+<body class="brown">
+<div class="shell">
+    <aside class="side">
+        <div class="brand">evenza<small>Campaign studio</small></div>
+        <nav class="nav">
+            <a href="/">Overview</a>
+            <a href="/events/index.html">Events</a>
+            <a href="/booking/index.html">Bookings</a>
+            <a href="/schedule/index.html">Schedule</a>
+            <a href="/inquiry/index.html">Inquiry &amp; Reviews</a>
+            <a class="active" href="/promotion/index.html">Promotions</a>
+            <a href="/inventory/index.html">Inventory</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header class="top">
+            <div>
+                <div class="eyebrow">PROMOTION MANAGEMENT</div>
+                <h1 id="pageTitle">Offer campaign studio</h1>
+                <p id="pageSubtitle">Build offers and manage their publication lifecycle.</p>
+            </div>
+            <div class="user-chip" id="userChip">Loading account…</div>
+        </header>
+
+        <section class="hero promotion-hero">
+            <div>
+                <span class="hero-kicker">SMART CAMPAIGNS</span>
+                <h2 id="heroTitle">Packages customers notice</h2>
+                <p id="roleMessage">Loading your promotion workspace…</p>
+            </div>
+            <button class="btn ghost" id="newBtn" type="button">+ New promotion</button>
+        </section>
+
+        <div class="stats">
+            <div class="stat"><strong id="total">0</strong><span id="totalLabel">Total offers</span></div>
+            <div class="stat"><strong id="active">0</strong><span id="activeLabel">Active</span></div>
+            <div class="stat"><strong id="draft">0</strong><span id="draftLabel">Drafts</span></div>
+            <div class="stat"><strong id="scheduled">0</strong><span id="scheduledLabel">Scheduled</span></div>
+        </div>
+
+        <div class="grid" id="managementWorkspace">
+            <section class="card span-5 glass-card" id="promotionFormCard">
+                <span class="section-label">CAMPAIGN BUILDER</span>
+                <h3 id="formTitle">Create promotion</h3>
+                <form id="form" novalidate>
+                    <input id="id" type="hidden">
+                    <input id="version" type="hidden">
+
+                    <div class="form-grid">
+                        <div class="full">
+                            <label for="title">Campaign title</label>
+                            <input id="title" required maxlength="150" placeholder="Celebration season special">
+                        </div>
+                        <div>
+                            <label for="packageName">Package name</label>
+                            <input id="packageName" required maxlength="150" placeholder="Evenza Signature">
+                        </div>
+                        <div>
+                            <label for="category">Category</label>
+                            <input id="category" required maxlength="80" placeholder="Photography">
+                        </div>
+                        <div>
+                            <label for="price">Original price (LKR)</label>
+                            <input id="price" type="number" min="0.01" step="0.01" required>
+                        </div>
+                        <div>
+                            <label for="discountType">Discount type</label>
+                            <select id="discountType">
+                                <option value="PERCENTAGE">Percentage</option>
+                                <option value="FIXED_AMOUNT">Fixed amount</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="discount">Discount value</label>
+                            <input id="discount" type="number" min="0.01" step="0.01" required>
+                        </div>
+                        <div class="price-preview">
+                            <span>Final price</span>
+                            <strong id="finalPricePreview">LKR 0.00</strong>
+                        </div>
+                        <div>
+                            <label for="startsAt">Starts</label>
+                            <input id="startsAt" type="datetime-local" required>
+                        </div>
+                        <div>
+                            <label for="endsAt">Ends</label>
+                            <input id="endsAt" type="datetime-local" required>
+                        </div>
+                        <div class="full">
+                            <label for="description">Description</label>
+                            <textarea id="description" required maxlength="2000"></textarea>
+                        </div>
+                        <div class="full">
+                            <label for="terms">Terms and conditions</label>
+                            <textarea id="terms" required maxlength="3000"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn" type="submit" id="saveBtn">Save draft</button>
+                        <button class="btn secondary" type="button" id="clearBtn">Clear</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card span-7 glass-card" id="managementPortfolio">
+                <div class="portfolio-heading">
+                    <div>
+                        <span class="section-label">CAMPAIGN PORTFOLIO</span>
+                        <h3>Managed promotions</h3>
+                    </div>
+                    <div class="tools">
+                        <input id="managementSearch" type="search" placeholder="Search campaigns…">
+                        <select id="managementStatus" aria-label="Filter campaign status">
+                            <option value="ALL">All statuses</option>
+                            <option value="DRAFT">Draft</option>
+                            <option value="SCHEDULED">Scheduled</option>
+                            <option value="ACTIVE">Active</option>
+                            <option value="INACTIVE">Inactive</option>
+                            <option value="EXPIRED">Expired</option>
+                            <option value="ARCHIVED">Archived</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="managementCards" class="campaign-list"></div>
+            </section>
+        </div>
+
+        <section class="card glass-card customer-market" id="customerWorkspace">
+            <div class="portfolio-heading">
+                <div>
+                    <span class="section-label">LIVE MARKETPLACE</span>
+                    <h3>Offers available now</h3>
+                </div>
+                <div class="tools">
+                    <input id="customerSearch" type="search" placeholder="Search offers…">
+                    <select id="categoryFilter" aria-label="Filter offers by category">
+                        <option value="ALL">All categories</option>
+                    </select>
+                </div>
+            </div>
+            <div id="customerCards" class="offer-grid"></div>
+        </section>
+    </main>
+</div>
+
+<div class="toast"></div>
+<script src="/assets/common.js"></script>
+<script src="/promotion/promotion.js"></script>
+</body>
+</html>

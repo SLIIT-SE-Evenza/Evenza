@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Evenza Events</title>
+    <link rel="stylesheet" href="/assets/module.css">
+    <link rel="stylesheet" href="/events/events.css">
+</head>
+<body class="red">
+<div class="shell">
+    <aside class="side">
+        <div class="brand">evenza<small>Event planning suite</small></div>
+        <nav class="nav">
+            <a href="/">Overview</a>
+            <a class="active" href="/events/index.html">Events</a>
+            <a href="/booking/index.html">Bookings</a>
+            <a href="/schedule/index.html">Schedule</a>
+            <a href="/inquiry/index.html">Inquiry</a>
+            <a href="/promotion/index.html">Promotions</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header class="top">
+            <div>
+                <div class="eyebrow">EVENT MANAGEMENT</div>
+                <h1>Event command center</h1>
+                <p>Plan and control customer events from one workspace.</p>
+            </div>
+        </header>
+
+        <section class="hero event-hero">
+            <div><h2>Turn an idea into a live event</h2></div>
+            <button class="btn ghost" id="newBtn" type="button">+ New event</button>
+        </section>
+
+        <div class="stats">
+            <div class="stat"><strong id="total">0</strong>Total</div>
+            <div class="stat"><strong id="draft">0</strong>Draft</div>
+            <div class="stat"><strong id="approved">0</strong>Approved</div>
+            <div class="stat"><strong id="completed">0</strong>Completed</div>
+        </div>
+
+        <div class="grid">
+            <section class="card span-4 event-form-card">
+                <h3 id="formTitle">Create event</h3>
+                <form id="eventForm" novalidate>
+                    <input type="hidden" id="eventId">
+
+                    <label for="organiserId">Organiser</label>
+                    <select id="organiserId" required></select>
+
+                    <label for="name">Event name</label>
+                    <input id="name" minlength="3" maxlength="150" required
+                           placeholder="Annual gala">
+
+                    <div class="form-grid">
+                        <div>
+                            <label for="eventDate">Date &amp; time</label>
+                            <input id="eventDate" type="datetime-local" required>
+                        </div>
+                        <div>
+                            <label for="guestCount">Guests</label>
+                            <input id="guestCount" type="number" min="1" max="100000"
+                                   step="1" value="50" required>
+                        </div>
+                        <div class="full">
+                            <label for="requirements">Requirements</label>
+                            <textarea id="requirements" maxlength="1000"
+                                      placeholder="Venue, catering, lighting..."></textarea>
+                            <small><span id="requirementsCount">0</span>/1000 characters</small>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn" type="submit" id="saveBtn">Save event</button>
+                        <button class="btn secondary" type="button" id="cancelBtn">Clear</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card span-8 event-list-card">
+                <div class="portfolio-heading">
+                    <h3>Event portfolio</h3>
+                    <div class="event-tools">
+                        <input id="eventSearch" type="search" placeholder="Search events...">
+                        <select id="statusFilter" aria-label="Filter events by status">
+                            <option value="ALL">All statuses</option>
+                            <option value="DRAFT">Draft</option>
+                            <option value="PENDING_APPROVAL">Pending approval</option>
+                            <option value="APPROVED">Approved</option>
+                            <option value="COMPLETED">Completed</option>
+                            <option value="CANCELLED">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>EVENT</th>
+                            <th>DATE</th>
+                            <th>GUESTS</th>
+                            <th>STATUS</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                        </thead>
+                        <tbody id="eventRows"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<div class="toast"></div>
+<script src="/assets/common.js"></script>
+<script src="/events/events.js"></script>
+</body>
+</html>

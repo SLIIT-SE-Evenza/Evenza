@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Evenza Inquiries</title>
+    <link rel="stylesheet" href="/assets/module.css">
+    <link rel="stylesheet" href="/inquiry/inquiry.css">
+</head>
+<body class="brown">
+<div class="shell">
+    <aside class="side">
+        <div class="brand">evenza<small>Customer care</small></div>
+        <nav class="nav">
+            <a href="/">Overview</a>
+            <a href="/events/index.html">Events</a>
+            <a href="/booking/index.html">Bookings</a>
+            <a href="/schedule/index.html">Schedule</a>
+            <a class="active" href="/inquiry/index.html">Inquiry &amp; Reviews</a>
+            <a href="/promotion/index.html">Promotions</a>
+            <a href="/inventory/index.html">Inventory</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header class="top">
+            <div>
+                <div class="eyebrow">CUSTOMER EXPERIENCE</div>
+                <h1>Inquiry &amp; review desk</h1>
+                <p>Resolve questions and turn customer feedback into better events.</p>
+            </div>
+            <div class="user-chip" id="userChip">Loading account…</div>
+        </header>
+
+        <section class="hero inquiry-hero">
+            <div>
+                <span class="hero-kicker">CONNECTED SUPPORT</span>
+                <h2>Listen. Resolve. Improve.</h2>
+                <p id="roleMessage">Loading your customer-care workspace…</p>
+            </div>
+        </section>
+
+        <div class="stats">
+            <div class="stat"><strong id="inquiryCount">0</strong>Inquiries</div>
+            <div class="stat"><strong id="openCount">0</strong>Open</div>
+            <div class="stat"><strong id="reviewCount">0</strong>Reviews</div>
+            <div class="stat"><strong id="average">0.0</strong>Avg rating</div>
+        </div>
+
+        <div class="grid">
+            <section class="card span-4 glass-card" id="inquiryFormCard">
+                <div class="card-heading">
+                    <div>
+                        <span class="section-label">CUSTOMER REQUEST</span>
+                        <h3 id="inquiryTitle">New inquiry</h3>
+                    </div>
+                </div>
+                <form id="inquiryForm" novalidate>
+                    <input type="hidden" id="inquiryId">
+
+                    <label for="inquiryCustomerName">Customer</label>
+                    <input id="inquiryCustomerName" disabled>
+
+                    <label for="eventType">Event type</label>
+                    <input id="eventType" required maxlength="100" placeholder="Wedding, conference, party…">
+
+                    <label for="eventDetails">Question / requirements</label>
+                    <textarea id="eventDetails" required maxlength="2000"
+                              placeholder="Tell us what you need help with…"></textarea>
+                    <small><span id="inquiryCharacters">0</span>/2000 characters</small>
+
+                    <label for="attachmentPath">Attachment path <span class="optional">optional</span></label>
+                    <input id="attachmentPath" maxlength="255" placeholder="/documents/brief.pdf">
+
+                    <div class="actions">
+                        <button class="btn" type="submit" id="saveInquiry">Save inquiry</button>
+                        <button class="btn secondary" type="button" id="clearInquiry">Clear</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card span-8 glass-card" id="inquiryListCard">
+                <div class="list-heading">
+                    <div>
+                        <span class="section-label">REQUEST PIPELINE</span>
+                        <h3>Inquiry queue</h3>
+                    </div>
+                    <div class="tools">
+                        <input id="inquirySearch" type="search" placeholder="Search inquiries…">
+                        <select id="inquiryStatus" aria-label="Filter inquiries by status">
+                            <option value="ALL">All statuses</option>
+                            <option value="SUBMITTED">Submitted</option>
+                            <option value="FORWARDED">Forwarded</option>
+                            <option value="UNDER_REVIEW">Under review</option>
+                            <option value="APPROVED">Approved</option>
+                            <option value="REJECTED">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>TYPE</th><th>DETAILS</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
+                        <tbody id="inquiryRows"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="card span-4 glass-card" id="reviewFormCard">
+                <div class="card-heading">
+                    <div>
+                        <span class="section-label">EVENT FEEDBACK</span>
+                        <h3 id="reviewTitle">New review</h3>
+                    </div>
+                </div>
+                <form id="reviewForm" novalidate>
+                    <input type="hidden" id="reviewId">
+
+                    <label for="reviewEvent">Completed event</label>
+                    <select id="reviewEvent" required></select>
+
+                    <label for="reviewCustomerName">Customer</label>
+                    <input id="reviewCustomerName" disabled>
+
+                    <label for="rating">Rating</label>
+                    <select id="rating" required>
+                        <option value="5">★★★★★ — Excellent</option>
+                        <option value="4">★★★★☆ — Very good</option>
+                        <option value="3">★★★☆☆ — Good</option>
+                        <option value="2">★★☆☆☆ — Fair</option>
+                        <option value="1">★☆☆☆☆ — Poor</option>
+                    </select>
+
+                    <label for="comment">Feedback</label>
+                    <textarea id="comment" required maxlength="2000"
+                              placeholder="Share your event experience…"></textarea>
+
+                    <label class="check-label">
+                        <input id="anonymous" type="checkbox"> Post anonymously
+                    </label>
+
+                    <div class="actions">
+                        <button class="btn" type="submit" id="saveReview">Save review</button>
+                        <button class="btn secondary" type="button" id="clearReview">Clear</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card span-8 glass-card" id="reviewListCard">
+                <div class="list-heading">
+                    <div>
+                        <span class="section-label">VOICE OF CUSTOMER</span>
+                        <h3>Customer reviews</h3>
+                    </div>
+                    <input id="reviewSearch" class="review-search" type="search" placeholder="Search reviews…">
+                </div>
+                <div id="reviewRows" class="review-list"></div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<div class="toast"></div>
+<script src="/assets/common.js"></script>
+<script src="/inquiry/inquiry.js"></script>
+</body>
+</html>
