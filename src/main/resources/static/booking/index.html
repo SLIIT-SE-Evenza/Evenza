@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Evenza Bookings</title>
+
+    <!-- Shared module styling -->
+    <link rel="stylesheet" href="/assets/module.css">
+
+    <!-- Booking-specific glass effects and animations -->
+    <link rel="stylesheet" href="/booking/booking.css">
+</head>
+
+<body class="green">
+
+<div class="shell">
+
+    <aside class="side">
+        <div class="brand">
+            evenza
+            <small>Resource reservations</small>
+        </div>
+
+        <nav class="nav">
+            <a href="/">Overview</a>
+            <a href="/events/index.html">Events</a>
+
+            <a class="active"
+               href="/booking/index.html">
+                Bookings
+            </a>
+
+            <a href="/schedule/index.html">Schedule</a>
+            <a href="/inquiry/index.html">Inquiry</a>
+            <a href="/promotion/index.html">Promotions</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+
+        <header class="top booking-top">
+            <div>
+                <div class="eyebrow">
+                    BOOKING MANAGEMENT
+                </div>
+
+                <h1>Vendor &amp; venue bookings</h1>
+
+                <p>
+                    Reserve event resources and avoid
+                    schedule collisions.
+                </p>
+            </div>
+
+            <button class="btn secondary"
+                    id="demoBtn"
+                    type="button">
+                Prepare demo data
+            </button>
+        </header>
+
+        <section class="hero booking-hero">
+            <div>
+                <div class="hero-label">
+                    SMART RESOURCE PLANNING
+                </div>
+
+                <h2>Every reservation under control</h2>
+
+                <p>
+                    Coordinate trusted vendors and venues
+                    without double-booking.
+                </p>
+            </div>
+
+            <button class="btn ghost"
+                    id="seedBtn"
+                    type="button">
+                + Demo resources
+            </button>
+        </section>
+
+        <div class="stats booking-stats">
+
+            <div class="stat">
+                <span class="stat-icon">◆</span>
+                <strong id="total">0</strong>
+                <span>Total</span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-icon pending-icon">◷</span>
+                <strong id="pending">0</strong>
+                <span>Pending</span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-icon accepted-icon">✓</span>
+                <strong id="accepted">0</strong>
+                <span>Accepted</span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-icon cancelled-icon">×</span>
+                <strong id="cancelled">0</strong>
+                <span>Cancelled</span>
+            </div>
+
+        </div>
+
+        <div class="grid booking-grid">
+
+            <section class="card span-4 booking-form-card">
+                <div class="card-heading">
+                    <div>
+                        <div class="section-label">
+                            RESERVATION DETAILS
+                        </div>
+
+                        <h3 id="formTitle">
+                            New booking
+                        </h3>
+                    </div>
+                </div>
+
+                <form id="bookingForm" novalidate>
+                    <input type="hidden" id="bookingId">
+
+                    <label for="customerId">
+                        Customer
+                    </label>
+
+                    <select id="customerId" required></select>
+
+                    <label for="eventId">
+                        Event
+                    </label>
+
+                    <select id="eventId" required></select>
+
+                    <div class="form-grid">
+
+                        <div>
+                            <label for="vendorId">
+                                Vendor
+                            </label>
+
+                            <select id="vendorId">
+                                <option value="">None</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="venueId">
+                                Venue
+                            </label>
+
+                            <select id="venueId">
+                                <option value="">None</option>
+                            </select>
+                        </div>
+
+                        <div class="full">
+                            <label for="bookingDate">
+                                Booking date
+                            </label>
+
+                            <input type="date"
+                                   id="bookingDate"
+                                   required>
+                        </div>
+
+                        <div>
+                            <label for="startTime">
+                                Start time
+                            </label>
+
+                            <input type="time"
+                                   id="startTime"
+                                   required
+                                   value="09:00">
+                        </div>
+
+                        <div>
+                            <label for="endTime">
+                                End time
+                            </label>
+
+                            <input type="time"
+                                   id="endTime"
+                                   required
+                                   value="12:00">
+                        </div>
+
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn booking-save"
+                                type="submit">
+                            Save booking
+                        </button>
+
+                        <button class="btn secondary"
+                                type="button"
+                                id="clearBtn">
+                            Clear
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card span-8 booking-list-card">
+                <div class="card-heading">
+                    <div>
+                        <div class="section-label">
+                            BOOKING WORKFLOW
+                        </div>
+
+                        <h3>Reservation register</h3>
+                    </div>
+
+                    <span class="live-indicator">
+                        <span></span>
+                        Live availability
+                    </span>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>DATE</th>
+                            <th>RESOURCE</th>
+                            <th>TIME</th>
+                            <th>STATUS</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="rows"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="card span-12 resource-card">
+                <div class="resource-icon">⌂</div>
+
+                <div>
+                    <div class="section-label">
+                        RESOURCE NETWORK
+                    </div>
+
+                    <h3>Available resources</h3>
+
+                    <p id="resourceSummary"></p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<div class="toast"></div>
+
+<script src="/assets/common.js"></script>
+<script src="/booking/booking.js"></script>
+
+</body>
+</html>
