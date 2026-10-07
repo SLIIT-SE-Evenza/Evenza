@@ -110,6 +110,16 @@ function render() {
                 <td><div class="row-actions">${actionButtons(item)}</div></td>
             </tr>`;
     }).join("") || '<tr><td colspan="6" class="empty">No matching inventory items found.</td></tr>';
+
+    if ($("categoryList")) {
+        const canManageStock = ["ADMIN", "INVENTORY_STAFF"].includes(currentUser.role);
+        $("categoryList").innerHTML = categories.map(cat => `
+            <li style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 4px;">
+                <span style="font-size: 0.85rem">${esc(cat.name)}</span>
+                ${canManageStock ? `<button class="btn small danger" style="padding: 0.2rem 0.5rem" onclick="removeCategory(${cat.id})">Delete</button>` : ''}
+            </li>
+        `).join("") || '<li class="empty" style="font-size: 0.85rem; opacity: 0.7;">No categories found.</li>';
+    }
 }
 
 function isLowStock(item) {
@@ -152,6 +162,18 @@ window.removeItem = async id => {
     try {
         await api(`/api/inventory/items/${id}`, {method: "DELETE"});
         toast("Inventory item deleted");
+        await load();
+    } catch (error) {
+        toast(error.message, true);
+    }
+};
+
+window.removeCategory = async id => {
+    if (!confirm("Delete this category?")) return;
+
+    try {
+        await api(`/api/inventory/categories/${id}`, {method: "DELETE"});
+        toast("Category deleted");
         await load();
     } catch (error) {
         toast(error.message, true);
